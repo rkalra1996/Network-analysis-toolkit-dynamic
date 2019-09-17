@@ -11,16 +11,8 @@
             console.log('data in index.js', data);
 
             // create first node
-            nodeModule.createNode(data[0], svg);
-            nodeModule.createNode(data[8], svg);
-            relationshipModule.createRelation({
-                svgelem: svg,
-                weight: 0.75,
-                x1: data[0].x,
-                y1: data[0].y,
-                x2: data[8].x,
-                y2: data[8].y
-            });
+            StartLoop(data);
+            
             
             /* relationshipModule.createRelation({
                 svgelem: svg,
@@ -42,8 +34,23 @@
         let totalIterations = dataToLoop.length;
 
         let interval = window.setInterval(function(){
-            console.log('printing', dataToLoop[index]);
+            nodeModule.createNode(dataToLoop[index], svg);
+
+            if (dataToLoop[index].ia !== null && dataToLoop[index].ia !== -1) {
+                // a relationship is needed
+                let previousData = dataToLoop[index-1];
+                relationshipModule.createRelation({
+                    svgelem: svg,
+                    weight: 0.75,
+                    x1: dataToLoop[index].x,
+                    y1: dataToLoop[index].y,
+                    x2: previousData.x,
+                    y2: previousData.y
+                });
+            }
+
             index += 1;
+
             if (index >= totalIterations) {
                 // stop iterations
                 console.log('sequence complete');
