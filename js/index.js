@@ -1,6 +1,6 @@
 (function () {
-    var w = 300;
-    var h = 300;
+    var w = "100%";
+    var h = "100%";
     var svg = d3.select("body")
         .append("svg")
         .attr("width", w)
@@ -10,6 +10,11 @@
         if (data) {
             console.log('data in index.js', data);
 
+            // create first node
+            data.forEach(node => {
+                nodeModule.createNode(node); 
+            });
+            
             relationshipModule.createRelation({
                 svgelem: svg,
                 weight: 0.75,
