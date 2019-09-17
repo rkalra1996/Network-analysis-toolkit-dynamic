@@ -11,18 +11,25 @@
             console.log('data in index.js', data);
 
             // create first node
-            data.forEach(node => {
-                nodeModule.createNode(node); 
+            nodeModule.createNode(data[0]);
+            nodeModule.createNode(data[8]);
+            relationshipModule.createRelation({
+                svgelem: svg,
+                weight: 0.75,
+                x1: data[0].x,
+                y1: data[0].y,
+                x2: data[8].x,
+                y2: data[8].y
             });
             
-            relationshipModule.createRelation({
+            /* relationshipModule.createRelation({
                 svgelem: svg,
                 weight: 0.75,
                 x1: 100,
                 y1: 100,
                 x2: 200,
                 y2: 100
-            });
+            }); */
 
             // StartLoop(data.data);
         } else if (data === undefined) {
