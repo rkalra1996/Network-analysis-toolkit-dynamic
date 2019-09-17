@@ -1,4 +1,3 @@
-.body {
-    margin: 0;
-    padding: 0;
-}
+@import './partials/global';
+@import './partials/graph';
+// this is the main index file to be linked in the html
