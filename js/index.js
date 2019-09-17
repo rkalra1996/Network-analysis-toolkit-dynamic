@@ -37,9 +37,9 @@
                 // a relationship is needed
                 let previousData = dataToLoop[index - 1];
 
-                relationshipModule.createRelation({
+                relationshipModule().createRelation({
                     svgelem: svg,
-                    weight: 0.75,
+                    weight: dataToLoop[index].ci_no,
                     x1: dataToLoop[index].x,
                     y1: dataToLoop[index].y,
                     x2: previousData.x,

@@ -1,6 +1,6 @@
 var relationshipModule = (function () {
-    var arrowstatus = false
-    var arrowHead = function (svg) {
+    this.arrowstatus = false
+    this.arrowHead = function (svg) {
         arrowstatus = true;
         svg.append("svg:defs").append("svg:marker")
             .attr("id", "triangle")
@@ -13,7 +13,7 @@ var relationshipModule = (function () {
             .attr("d", "M 0 0 12 6 0 12 3 6")
             .style("fill", "#333");
     }
-    var lineCreation = function (svg, data) {
+    this.lineCreation = function (svg, data) {
         var weight = data.weight || 1;
         var x1 = data.x1;
         var x2 = data.x2;
@@ -29,21 +29,20 @@ var relationshipModule = (function () {
             .attr("stroke", "#333")
             .attr("marker-end", "url(#triangle)");
     }
-    var createRelation = function (data) {
-        var source = data.source;
-        var target = data.target
-        var svg = data.svgelem;
-        if (!source && !target && !data.x1 && !data.y1 && !data.x2 && !data.y2) {
+    this.createRelation = function (data) {
+        this.data = data;
+        var source = this.data.source;
+        var target = this.data.target
+        var svg = this.data.svgelem;
+        if (!source && !target && !this.data.x1 && !this.data.y1 && !this.data.x2 && !this.data.y2) {
             var err = new Error("please proved source and target and coordinates");
             throw err;
         }
         // if (!arrowstatus)
         arrowHead(svg);
-        lineCreation(svg, data);
+        lineCreation(svg, this.data);
 
 
     }
-    return {
-        createRelation: createRelation
-    }
-})();
+    return this
+});

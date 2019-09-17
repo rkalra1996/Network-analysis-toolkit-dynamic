@@ -14,7 +14,7 @@ var nodeModule = (function (d3) {
             .data([nodeDetails])
             .attr("cx", nodeDetails.x)
             .attr("cy", nodeDetails.y)
-            .attr("r", 20)
+            .attr("r", 20 + (nodeDetails.cdoi / 100))
             .attr('fill', nodeDetails.ptype === 'H' ? '#f09ac3' : '#b693c4')
             .append('circle');
 
