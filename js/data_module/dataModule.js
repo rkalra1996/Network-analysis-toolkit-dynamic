@@ -1,7 +1,6 @@
 var dataModule = (function (d3) {
     var circle = function (radius, steps, centerX, centerY, networkdata) {
         
-        var xValues = [centerX];
         var yValues = [centerY];
         
         for (var i = 1; i <= steps; i++) {
@@ -15,7 +14,7 @@ var dataModule = (function (d3) {
         }
         return networkdata;
     }
-    
+
     var getData = function (cb) {
         if (d3) {
             d3.json('./../data/data.json', (err, data) => {
