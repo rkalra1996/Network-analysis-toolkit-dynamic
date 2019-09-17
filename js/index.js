@@ -25,19 +25,19 @@
         }
     })
 
-    function StartLoop(dataToLoop) {
+    function StartLoop(dataToLoop, intervalTimeout = 5000) {
         let index = 0;
         let totalIterations = dataToLoop.length;
 
-        let interval = window.setInterval(function () {
+        let interval = window.setInterval(function(){
             console.log('printing', dataToLoop[index]);
             index += 1;
             if (index >= totalIterations) {
                 // stop iterations
                 console.log('sequence complete');
                 window.clearInterval(interval);
-                interval = undefined;
+                interval = undefined
             }
-        }, 5000)
+        }, intervalTimeout)
     }
 })();
