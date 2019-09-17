@@ -36,6 +36,7 @@
             if (dataToLoop[index].ia !== null && dataToLoop[index].ia !== -1) {
                 // a relationship is needed
                 let previousData = dataToLoop[index - 1];
+
                 relationshipModule.createRelation({
                     svgelem: svg,
                     weight: 0.75,

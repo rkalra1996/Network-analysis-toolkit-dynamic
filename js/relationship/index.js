@@ -11,7 +11,7 @@ var relationshipModule = (function () {
             .attr("orient", "auto")
             .append("path")
             .attr("d", "M 0 0 12 6 0 12 3 6")
-            .style("fill", "black");
+            .style("fill", "#333");
     }
     var lineCreation = function (svg, data) {
         var weight = data.weight || 1;
@@ -26,8 +26,7 @@ var relationshipModule = (function () {
             .attr("x2", x2)
             .attr("y2", y2)
             .attr("stroke-width", weight)
-            .attr("stroke", "black");
-        d3.select("line").attr("marker-end", null)
+            .attr("stroke", "#333")
             .attr("marker-end", "url(#triangle)");
     }
     var createRelation = function (data) {
