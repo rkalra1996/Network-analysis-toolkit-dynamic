@@ -1,7 +1,23 @@
 (function () {
+    var w = 300;
+    var h = 300;
+    var svg = d3.select("body")
+        .append("svg")
+        .attr("width", w)
+        .attr("height", h);
+
     dataModule.getGraphData(function (data) {
         if (data) {
             console.log('data in index.js', data);
+
+            relationshipModule.createRelation({
+                svgelem: svg,
+                weight: 0.75,
+                x1: 100,
+                y1: 100,
+                x2: 200,
+                y2: 100
+            });
 
             // StartLoop(data.data);
         } else if (data === undefined) {
@@ -24,41 +40,4 @@
             }
         }, 5000)
     }
-    var w = 300;
-    var h = 300;
-    var svg = d3.select("body")
-        .append("svg")
-        .attr("width", w)
-        .attr("height", h);
-
-    relationshipModule.createRelation({
-        svgelem: svg,
-        source: 2,
-        target: 1,
-        weight: 0.75,
-        x1: 100,
-        y1: 100,
-        x2: 200,
-        y2: 100
-    });
-    var i = 2;
-    // setInterval(function () {
-    //     var counter = i++;
-    //     console.log(counter)
-    //     counter = counter / 4;
-    //     relationshipModule.createRelation({
-    //         svgelem: svg,
-    //         source: 2,
-    //         target: 1,
-    //         direction: 'OUT',
-    //         weight: counter,
-    //         x1: 100,
-    //         y1: 100,
-    //         x2: 200,
-    //         y2: 100
-    //     });
-    // }, 3000)
-
-
-
 })();
