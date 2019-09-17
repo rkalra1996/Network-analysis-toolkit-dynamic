@@ -1,4 +1,4 @@
-var dataModule = (function() {
+var dataModule = (function(d3) {
     var getData = function(cb) {
         if (d3) {
             d3.json('./../data/data.json', (err,data) => {
@@ -21,4 +21,4 @@ var dataModule = (function() {
     return {
         getGraphData: getData
     }
-}());
+}(d3));

@@ -1,9 +1,9 @@
-var nodeModule = (function() {
+var nodeModule = (function(d3) {
     _createNode = (nodeDetails) => {
-        console.log('create node called ', nodeDetails);
+        
     }
 
     return {
         createNode : _createNode
     }
-  }());
+  }(d3));
