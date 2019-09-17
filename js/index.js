@@ -9,6 +9,17 @@
     dataModule.getGraphData(function (data) {
         if (data) {
             console.log('data in index.js', data);
+
+
+            /* relationshipModule.createRelation({
+                svgelem: svg,
+                weight: 0.75,
+                x1: 100,
+                y1: 100,
+                x2: 200,
+                y2: 100
+            }); */
+
             StartLoop(data);
         } else if (data === undefined) {
             console.log('An error occured while readingdata in the index.js')
@@ -19,12 +30,12 @@
         let index = 0;
         let totalIterations = dataToLoop.length;
 
-        let interval = window.setInterval(function(){
+        let interval = window.setInterval(function () {
             nodeModule.createNode(dataToLoop[index], svg);
 
             if (dataToLoop[index].ia !== null && dataToLoop[index].ia !== -1) {
                 // a relationship is needed
-                let previousData = dataToLoop[index-1];
+                let previousData = dataToLoop[index - 1];
                 relationshipModule.createRelation({
                     svgelem: svg,
                     weight: 0.75,
