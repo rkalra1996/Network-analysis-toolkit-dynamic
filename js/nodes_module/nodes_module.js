@@ -1,13 +1,15 @@
 var nodeModule = (function(d3) {
-    _createNode = (nodeDetails, isFirst=false) => {
+    _createNode = (nodeDetails, svg) => {
         
-    var svgContainer = d3.select("svg")
-
+    var svgContainer = svg;
+    
+    // this group contains the node and a mini node showing video status
     var group = svgContainer.append('g')
                 .attr('transform', function(d,i) {
                     return 'translate(0,0)';
                 });
 
+    // The main circle representing the node
     var circle = group.append("circle")
                                  .data([nodeDetails])
                                  .attr("cx", nodeDetails.x)
@@ -16,13 +18,12 @@ var nodeModule = (function(d3) {
                                  .attr('fill', nodeDetails.ia === null ? 'lightblue' : 'orange')
                                  .append('circle');
 
+    // The mini circle which store the video status
     var miniCircle = group.append('circle')
         .attr('cx', nodeDetails.x+18)
         .attr('cy', nodeDetails.y-14)
         .attr('r', 5)
-        .attr('fill', nodeDetails.vs ? 'green' : 'red')
-
-    
+        .attr('fill', nodeDetails.vs ? 'green' : 'red');    
     }
 
     return {

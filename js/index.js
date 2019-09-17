@@ -11,8 +11,8 @@
             console.log('data in index.js', data);
 
             // create first node
-            nodeModule.createNode(data[0]);
-            nodeModule.createNode(data[8]);
+            nodeModule.createNode(data[0], svg);
+            nodeModule.createNode(data[8], svg);
             relationshipModule.createRelation({
                 svgelem: svg,
                 weight: 0.75,
