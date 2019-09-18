@@ -6,16 +6,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="./scss/css/index.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.2/rangeslider.css">
     <title>Network Analysis Toolkit</title>
 </head>
 
 <body>
 
+    <navbar>
+        <div class="navbarContent">
+            <p class="title">
+                Network Analyser Toolkit
+            </p>
+        </div>
+    </navbar>
+
+    <div id="graphContainer" class="graphContainer">
+        <!--space for svg-->
+    </div>
+
+
+           <!--  <div class="range">
+                    <input type="range" min="1" max="17" value="1" class="slider">
+                    <div id="sliderticks" class="sliderticks">
+                    </div>
+                  </div> -->
+<div class="slider">
+        <input type="range" min="1" max="17" step="1" value="1" data-orientation="horizontal">
+</div>
+
+
+            <!-- <div class="range">
+                    <input type="range" min="1" max="7" steps="1" value="1">
+                  </div>
+                  
+                  <ul id="range-labels" class="range-labels">
+                    <li class="active selected">Today</li>
+                    <li>2 days</li>
+                    <li>3 days</li>
+                    <li>4 days</li>
+                    <li>5 days</li>
+                    <li>6 days</li>
+                    <li>7 days</li>
+                  </ul> -->
+
 </body>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+  <script src="./js/slider.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.2/rangeslider.js"></script>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="./js/data_module/dataModule.js"></script>
 <script src="./js/nodes_module/nodes_module.js"></script>
 <script src="./js/relationship/index.js"></script>
 <script src="./js/index.js"></script>
+
 
 </html>

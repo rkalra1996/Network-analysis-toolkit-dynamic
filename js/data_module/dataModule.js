@@ -77,7 +77,7 @@ var dataModule = (function (d3) {
             d3.json('./../data/data.json', (err, data) => {
                 if (data) {
                     var originaldata = data.data;
-                    originaldata = createAxis(originaldata.length, 200, originaldata, window.innerWidth / 2, window.innerHeight / 2)
+                    originaldata = createAxis(originaldata.length, 300, originaldata, window.innerWidth / 2, window.innerHeight / 2)
                     // originaldata = circle(100, originaldata.length, window.innerWidth / 2, window.innerHeight / 2, originaldata)
                     console.log('data fetched');
 

@@ -1,7 +1,7 @@
 (function () {
     var w = "100%";
     var h = "100%";
-    var svg = d3.select("body")
+    var svg = d3.select("#graphContainer")
         .append("svg")
         .attr("width", w)
         .attr("height", h);
@@ -21,6 +21,7 @@
             }); */
 
             StartLoop(data);
+            sliderModule.setSlider(data);
         } else if (data === undefined) {
             console.log('An error occured while readingdata in the index.js')
         }
@@ -32,6 +33,7 @@
 
         let interval = window.setInterval(function () {
             nodeModule.createNode(dataToLoop[index], svg);
+            sliderModule.moveSlider(index);
 
             if (dataToLoop[index].ia !== null && dataToLoop[index].ia !== -1) {
                 // a relationship is needed

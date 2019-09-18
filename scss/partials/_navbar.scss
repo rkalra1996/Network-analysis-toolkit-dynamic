@@ -1,0 +1,14 @@
+navbar {
+    display: block;
+    height: 10vh;
+    background-color: whitesmoke;
+    font-size: 1.6rem;
+}
+
+.navbarContent {
+    height: 100%;
+    .title {
+        padding-top: 27px;
+        text-align: center;
+    }
+}
