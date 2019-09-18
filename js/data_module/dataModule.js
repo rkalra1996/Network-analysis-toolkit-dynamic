@@ -16,62 +16,30 @@ var dataModule = (function (d3) {
                 networkdata[i]["y"] = flags[networkdata[i].pid]["y"]
                 continue;
             }
-            // if (i == 0) {
-            //     flags[networkdata[i]["pid"]] = {
-            //         "status": true,
-            //         "x": centerX - 20,
-            //         "y": centerY - 20
-            //     }
-            //     networkdata[i]["x"] = centerX - 20;
-            //     networkdata[i]["y"] = centerY - 20
-            // } else {
-
-            x = (radius * Math.cos(angle)) + (width / 2); // Calculate the x position of the element.
-            y = (radius * Math.sin(angle)) + (width / 2); // Calculate the y position of the element.
-            flags[networkdata[i].pid] = {
-                "status": true,
-                "x": x + radius * 2,
-                "y": y + radius / 2
-            }
-            networkdata[i]["x"] = x + radius * 2
-            networkdata[i]["y"] = y + radius / 2
-            // }
-
-        }
-        return networkdata;
-    }
-    var circle = function (radius, steps, centerX, centerY, networkdata) {
-        var flags = [],
-            output = [];
-        var yValues = [centerY];
-
-        for (var i = 1; i <= steps; i++) {
-            if (flags[networkdata[i - 1].pid]) {
-                networkdata[i - 1]["x"] = flags[networkdata[i - 1].pid]["x"]
-                networkdata[i - 1]["y"] = flags[networkdata[i - 1].pid]["y"]
-                continue;
-            }
-            if (i == 1) {
-                flags[networkdata[i - 1].pid] = {
+            if (i == 0) {
+                flags[networkdata[i]["pid"]] = {
                     "status": true,
-                    "x": (centerX + radius * Math.cos(Math.PI * i / steps - Math.PI / 2)),
-                    "y": (centerY + radius * Math.sin(Math.PI * i / steps - Math.PI / 2)) + 50 + i * 2
+                    "x": centerX - 20,
+                    "y": centerY - 20
                 }
-                networkdata[i - 1]["x"] = centerX;
-                networkdata[i - 1]["y"] = centerY;
+                networkdata[i]["x"] = centerX - 20;
+                networkdata[i]["y"] = centerY - 20
             } else {
-                flags[networkdata[i - 1].pid] = {
+
+                x = (radius * Math.cos(angle)) + (width / 2); // Calculate the x position of the element.
+                y = (radius * Math.sin(angle)) + (width / 2); // Calculate the y position of the element.
+                flags[networkdata[i].pid] = {
                     "status": true,
-                    "x": (centerX + radius * Math.cos(Math.PI * i / steps - Math.PI / 2)),
-                    "y": (centerY + radius * Math.sin(Math.PI * i / steps - Math.PI / 2)) + 50 + i * 2
+                    "x": x + radius * 2,
+                    "y": y + radius / 2
                 }
-                networkdata[i - 1]["x"] = (centerX + radius * Math.cos(Math.PI * i / steps - Math.PI / 2));
-                networkdata[i - 1]["y"] = yValues[i] = (centerY + radius * Math.sin(Math.PI * i / steps - Math.PI / 2)) + 5 * i * 2;
+                networkdata[i]["x"] = x + radius * 2
+                networkdata[i]["y"] = y + radius / 2
             }
+
         }
         return networkdata;
     }
-
     var getData = function (cb) {
         if (d3) {
             d3.json('./../data/data.json', (err, data) => {
