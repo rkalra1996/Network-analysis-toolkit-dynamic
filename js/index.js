@@ -1,6 +1,6 @@
 (function () {
-    var w = "100%";
-    var h = "100%";
+    var w = $("#graphContainer").width();
+    var h = $("#graphContainer").height();
     var svg = d3.select("#graphContainer")
         .append("svg")
         .attr("width", w)
@@ -27,7 +27,7 @@
         }
     })
 
-    function StartLoop(dataToLoop, intervalTimeout = 5000) {
+    function StartLoop(dataToLoop, intervalTimeout = 1000) {
         let index = 0;
         let totalIterations = dataToLoop.length;
 

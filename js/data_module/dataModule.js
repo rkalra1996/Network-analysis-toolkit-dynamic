@@ -16,26 +16,26 @@ var dataModule = (function (d3) {
                 networkdata[i]["y"] = flags[networkdata[i].pid]["y"]
                 continue;
             }
-            if (i == 0) {
-                flags[networkdata[i]["pid"]] = {
-                    "status": true,
-                    "x": centerX - 20,
-                    "y": centerY - 20
-                }
-                networkdata[i]["x"] = centerX - 20;
-                networkdata[i]["y"] = centerY - 20
-            } else {
+            // if (i == 0) {
+            //     flags[networkdata[i]["pid"]] = {
+            //         "status": true,
+            //         "x": centerX - 20,
+            //         "y": centerY - 20
+            //     }
+            //     networkdata[i]["x"] = centerX - 20;
+            //     networkdata[i]["y"] = centerY - 20
+            // } else {
 
-                x = (radius * Math.cos(angle)) + (width / 2); // Calculate the x position of the element.
-                y = (radius * Math.sin(angle)) + (width / 2); // Calculate the y position of the element.
-                flags[networkdata[i].pid] = {
-                    "status": true,
-                    "x": x + radius * 2,
-                    "y": y + radius / 2
-                }
-                networkdata[i]["x"] = x + radius * 2
-                networkdata[i]["y"] = y + radius / 2
+            x = (radius * Math.cos(angle)) + (width / 2); // Calculate the x position of the element.
+            y = (radius * Math.sin(angle)) + (width / 2); // Calculate the y position of the element.
+            flags[networkdata[i].pid] = {
+                "status": true,
+                "x": x + radius * 2,
+                "y": y + radius / 2
             }
+            networkdata[i]["x"] = x + radius * 2
+            networkdata[i]["y"] = y + radius / 2
+            // }
 
         }
         return networkdata;
@@ -77,7 +77,7 @@ var dataModule = (function (d3) {
             d3.json('./../data/data.json', (err, data) => {
                 if (data) {
                     var originaldata = data.data;
-                    originaldata = createAxis(originaldata.length, (window.innerHeight/3 - 50), originaldata, window.innerWidth / 2, window.innerHeight / 2)
+                    originaldata = createAxis(originaldata.length, ($("#graphContainer").height() / 2.5), originaldata, ($("#graphContainer").width() / 2), ($("#graphContainer").height() / 2))
                     // originaldata = circle(100, originaldata.length, window.innerWidth / 2, window.innerHeight / 2, originaldata)
                     console.log('data fetched');
 
