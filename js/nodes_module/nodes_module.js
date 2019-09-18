@@ -1,5 +1,31 @@
 var nodeModule = (function (d3) {
-    _createNode = (nodeDetails, svg) => {
+
+    _recursive_transitions = function(selection, selectionData) {
+            let radius = selection.attr('r');
+        let totalFlickerValue = selectionData.ci_graph;
+
+        // if the node hasn't interacted, it should not flicker
+        if (selectionData.ia !== -1) {
+            selection
+            .transition()
+            .duration(1000 / totalFlickerValue)
+            .attr("stroke-width", 2)
+            .attr("r", 15)
+            .transition()
+            .duration(1000 / totalFlickerValue)
+            .attr("stroke-width", 3)
+            .attr("r", selectionData.original_radius)
+            .on("end", _recursive_transitions.bind(null,selection, selectionData));
+        }
+    }
+
+    _startFlicker = function(circle, miniCircle, data){
+        // preserve the original radius
+        data['original_radius'] = circle.attr('r');
+        _recursive_transitions(circle, data);
+    }
+
+    _createNode = function(nodeDetails, svg)  {
 
         var svgContainer = svg;
 
@@ -35,6 +61,9 @@ var nodeModule = (function (d3) {
             .attr('cy', nodeDetails.y - 14 -(nodeDetails.cdoi / 100))
             .attr('r', 5)
             .attr('fill', nodeDetails.vs ? 'green' : 'red');
+
+        // add the flicker basis its graph interaction
+        _startFlicker(circle,miniCircle,nodeDetails)
     }
 
     return {

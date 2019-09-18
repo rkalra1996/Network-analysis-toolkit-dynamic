@@ -3,7 +3,7 @@
 
 
         var _initiateSlider = function(data) {
-            /* var totalTicks = data.length;
+            var totalTicks = data.length;
             document.getElementsByTagName('input')[0].setAttribute('max', totalTicks);
             var sliderEl = document.getElementById('sliderticks')
 
@@ -17,7 +17,7 @@
                 let snippet = document.createTextNode(i+1);
                 listItem.appendChild(snippet);
                 sliderEl.appendChild(listItem);
-            } */
+            }
         }
 
         var _moveSlider = function(pointToMove) {
