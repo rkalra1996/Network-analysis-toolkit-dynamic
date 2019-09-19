@@ -1,6 +1,7 @@
-(function () {
+(function (d3) {
     var w = $("#graphContainer").width();
-    var h = $("#graphContainer").height();
+    // var h = $("#graphContainer").height();
+    var h = '600px';
     var svg = d3.select("#graphContainer")
         .append("svg")
         .attr("width", w)
@@ -8,11 +9,16 @@
 
     dataModule.getGraphData(function (data) {
         if (data) {
-            if(sliderModule.setSlider(data)) {
+            sliderModule.setSlider(data);
+
+            // set the click event on the button
+            document.getElementById('startBtn').addEventListener('click', function($event){
+                //start the sequence
+                d3.selectAll("svg > *").remove();
+                sliderModule.moveSlider(0);
                 StartLoop(data);
-            } else {
-                console.log('Error occured while setting up the slider, cannot start the animation if slider is not set');
-            }
+            });
+
         } else if (data === undefined) {
             console.log('An error occured while readingdata in the index.js')
         }
@@ -50,4 +56,4 @@
             }
         }, intervalTimeout)
     }
-})();
+})(d3);
