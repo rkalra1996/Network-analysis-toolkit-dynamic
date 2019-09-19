@@ -8,20 +8,11 @@
 
     dataModule.getGraphData(function (data) {
         if (data) {
-            console.log('data in index.js', data);
-
-
-            /* relationshipModule.createRelation({
-                svgelem: svg,
-                weight: 0.75,
-                x1: 100,
-                y1: 100,
-                x2: 200,
-                y2: 100
-            }); */
-
-            StartLoop(data);
-            sliderModule.setSlider(data);
+            if(sliderModule.setSlider(data)) {
+                StartLoop(data);
+            } else {
+                console.log('Error occured while setting up the slider, cannot start the animation if slider is not set');
+            }
         } else if (data === undefined) {
             console.log('An error occured while readingdata in the index.js')
         }
