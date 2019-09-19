@@ -1,5 +1,8 @@
+@import './mixins/global_mixins';
+
 @import './partials/global';
 @import './partials/navbar';
+@import './partials/toolbar';
 @import './partials/graph';
 @import './partials/tooltip';
 @import './partials/slider';

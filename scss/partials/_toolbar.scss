@@ -1,0 +1,112 @@
+.toolbar {
+    width: 100%;
+    background-color: white;
+    height: 50px;
+    position: relative;
+}
+
+.node-details, .video-details {
+    display: inline-block;
+}
+
+.node-details {
+    z-index: 100;
+    width: 250px;
+    margin-top: 20px;
+    margin-left: 20px;
+    .container {
+        .title {
+            text-align: center;
+            margin: 0;
+            padding: 5px 0;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .body {
+            padding: 5px 10px;
+            .row {
+                display: flex;
+                margin-bottom: 7px;
+                .name, .value {
+                    flex: 1;
+                }
+                .name {
+                    max-width: 100px;
+                }
+            }
+        }
+        @include general-box-shadow;
+    }
+}
+
+.video-details {
+    float: right;
+    z-index: 100;
+    width: 250px;
+    margin-top: 20px;
+    margin-right: 20px;
+    .container {
+        .title {
+            text-align: center;
+            margin: 0;
+            padding: 5px 0;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .body {
+            padding: 5px 10px;
+            .row {
+                display: flex;
+                margin-bottom: 7px;
+                .name, .value {
+                    flex: 1;
+                }
+                .name {
+                    max-width: 100px;
+                }
+            }
+        }
+        @include general-box-shadow;
+    }
+}
+
+.legendsContainer {
+    position: absolute;
+    bottom: 40px;
+    right: 0;
+    margin-right: 20px;
+    z-index: 100;
+    min-width: 150px;
+    text-align: center;
+
+    .legendDetails {
+        min-width: 100%;
+        background-color: transparent;
+        min-height: 70%;
+        font-size: 1.3rem;
+        margin-top: 20px;
+    }
+    span.label{
+        margin: -3px 5px;
+    }
+    
+    .labelValue {
+        line-height: 1.5;
+    }
+    span.label.org {
+        background: #f09ac4;
+        display: inline-block;
+        width: 20px;
+        border-radius: 50%;
+        height: 20px;
+    }
+    span.label.att {
+        background: #b693c4;
+        display: inline-block;
+        width: 20px;
+        border-radius: 50%;
+        height: 20px;
+        margin-left: -2px;
+    }
+    
+}

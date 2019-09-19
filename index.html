@@ -19,24 +19,84 @@
     </div>
   </navbar>
 
+  <div id="mainContainer" class="container">
   <div id="graphContainer" class="graphContainer">
+    <div class="toolbar">
+      <div class="node-details">
+        <div class="container">
+          <p class="title">Node Details</p>
+          <div class="body">
+            <div class="row">
+              <p class="name">Name 1</p>
+              <p class="value">Value 1</p>
+            </div>
+            <div class="row">
+              <p class="name">Name 2</p>
+              <p class="value">Value 2</p>
+            </div>
+            <div class="row">
+              <p class="name">Name 3</p>
+              <p class="value">Value 3</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-details">
+        <div class="container">
+          <p class="title">Video Details</p>
+          <div class="body">
+            <div class="row">
+              <p class="name">Name 1</p>
+              <p class="value">Value 1</p>
+            </div>
+            <div class="row">
+              <p class="name">Name 2</p>
+              <p class="value">Value 2</p>
+            </div>
+            <div class="row">
+              <p class="name">Name 3</p>
+              <p class="value">Value 3</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--legends section-->
+    <div class="legendsContainer">
+      <div class="legendDetails">
+        <p class="title"></p>
+        <div class="body">
+          <div class="row">
+            <span class="label org"></span>
+            <span class="labelValue">Organiser</span>
+          </div>
+          <div class="row">
+              <span class="label att"></span>
+              <span class="labelValue">Attendee  </span>
+            </div>
+        </div>
+      </div>
+    </div>
     <!--space for svg-->
   </div>
 
-<!--range slider using slider.js-->
+  <!--range slider using slider.js-->
   <div class="range">
     <input type="range" min="0" value="0" class="slider" disabled>
     <!-- <div id="sliderticks" class="sliderticks">
     </div> -->
     <ul id="sliderticks" class="sliderticks"></ul>
   </div>
-
-<!-- <div class="buttonContainer">
+</div>
+  <!-- <div class="buttonContainer">
   <button id="startBtn" class="generalBtn start">Start</button>
 </div> -->
 
 </body>
-<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
 <script src="./js/slider.js"></script>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="./js/data_module/dataModule.js"></script>

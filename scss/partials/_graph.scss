@@ -1,4 +1,9 @@
 .graphContainer {
     height: 80vh;
-    background-color: antiquewhite;
+    background-color: white;
+    width: 95%;
+    margin: auto;
+    margin-top: 20px;
+    position: relative;
+    @include general-box-shadow;
 }
