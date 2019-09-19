@@ -30,7 +30,6 @@
         }
 
         var _moveSlider = function(pointToMove) {
-            debugger;
             console.log('move', pointToMove);
             document.querySelector('input[type=range]').value = pointToMove;
         }
