@@ -25,13 +25,23 @@
     })
 
     function StartLoop(dataToLoop, intervalTimeout = 1000) {
-        let index = 0;
+        let index = -1;
         let totalIterations = dataToLoop.length;
 
         let interval = window.setInterval(function () {
+            index += 1;
+
+            if (index >= totalIterations) {
+                // stop iterations
+                console.log('sequence complete');
+                toolbarModule.updateNodeDetails(-1);
+                window.clearInterval(interval);
+                interval = undefined;
+                return;
+            }
             nodeModule.createNode(dataToLoop[index], svg);
             sliderModule.moveSlider(index);
-
+            toolbarModule.updateNodeDetails(dataToLoop[index])
             if (dataToLoop[index].ia !== null && dataToLoop[index].ia !== -1) {
                 // a relationship is needed
                 let previousData = dataToLoop[index - 1];
@@ -44,15 +54,6 @@
                     x2: previousData.x,
                     y2: previousData.y
                 });
-            }
-
-            index += 1;
-
-            if (index >= totalIterations) {
-                // stop iterations
-                console.log('sequence complete');
-                window.clearInterval(interval);
-                interval = undefined
             }
         }, intervalTimeout)
     }
