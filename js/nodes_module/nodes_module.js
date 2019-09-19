@@ -87,15 +87,19 @@ var nodeModule = (function (d3) {
                 toolTipp.html(_tooltipTemplate(d))
                 
                 d3.select('#tooltipContainer')
-                    .style('display', 'block')
-                    .style('z-index', 10)
                     .style('position', 'absolute')
                     .style('left', d3.event.x + 30 + 'px')
-                    .style('top', d3.event.y + 'px');
+                    .style('top', d3.event.y + 'px')
+                    .transition()
+                    .duration(500)
+                        .style('display', 'block')
+                        .style('z-index', 10)
             })
             .on('mouseout', function(d){
                 d3.select('#tooltipContainer')
-                    .style('display', 'none');
+                    .transition()
+                    .duration(500)
+                        .style('display', 'none');
             })
             .append('circle');
 
