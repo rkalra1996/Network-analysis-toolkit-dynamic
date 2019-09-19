@@ -31,7 +31,7 @@ var nodeModule = (function (d3) {
 
     var _recursive_transitions = function(selection, selectionData) {
         selectionData = selection.data()[0];
-        let totalFlickerValue = selectionData.ci_graph;
+        let totalFlickerValue = parseFloat(selectionData.ci_graph);
 
         // if the node hasn't interacted, it should not flicker
         if (selectionData.ia !== -1) {

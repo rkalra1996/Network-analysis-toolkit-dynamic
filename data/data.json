@@ -13,7 +13,7 @@
             "ci_no": 0,
             "tone": "Positive",
             "vs": 1,
-            "ci_graph": 1
+            "ci_graph": "1"
         },
         {
             "id": 2,
@@ -28,7 +28,7 @@
             "ci_no": 1,
             "tone": "Positive",
             "vs": 1,
-            "ci_graph": 1
+            "ci_graph": "1"
         },
         {
             "id": 3,
@@ -43,7 +43,7 @@
             "ci_no": 1,
             "tone": "Positive",
             "vs": 1,
-            "ci_graph": 2
+            "ci_graph": "2"
         },
         {
             "id": 4,
@@ -58,7 +58,7 @@
             "ci_no": 2,
             "tone": "Positive",
             "vs": 1,
-            "ci_graph": 2
+            "ci_graph": "2"
         },
         {
             "id": 5,
@@ -73,7 +73,7 @@
             "ci_no": 2,
             "tone": "Neutral",
             "vs": 1,
-            "ci_graph": 3
+            "ci_graph": "3"
         },
         {
             "id": 6,
@@ -88,7 +88,7 @@
             "ci_no": 1,
             "tone": "Positive",
             "vs": 1,
-            "ci_graph": 1
+            "ci_graph": "1"
         },
         {
             "id": 7,
@@ -103,7 +103,7 @@
             "ci_no": 1,
             "tone": "Neutral",
             "vs": 1,
-            "ci_graph": 4
+            "ci_graph": "4"
         },
         {
             "id": 8,
@@ -118,7 +118,7 @@
             "ci_no": 1,
             "tone": "Positive",
             "vs": 1,
-            "ci_graph": 1
+            "ci_graph": "1"
         },
         {
             "id": 9,
@@ -133,7 +133,7 @@
             "ci_no": 1,
             "tone": "Neutral",
             "vs": 0,
-            "ci_graph": 5
+            "ci_graph": "5"
         },
         {
             "id": 10,
@@ -148,7 +148,7 @@
             "ci_no": 2,
             "tone": "Positive",
             "vs": 1,
-            "ci_graph": 2
+            "ci_graph": "2"
         },
         {
             "id": 11,
@@ -163,7 +163,7 @@
             "ci_no": 2,
             "tone": "Neutral",
             "vs": 1,
-            "ci_graph": 6
+            "ci_graph": "6"
         },
         {
             "id": 12,
@@ -178,7 +178,7 @@
             "ci_no": 3,
             "tone": "Positive",
             "vs": 1,
-            "ci_graph": 3
+            "ci_graph": "3"
         },
         {
             "id": 13,
@@ -193,7 +193,7 @@
             "ci_no": 3,
             "tone": "Negative",
             "vs": 1,
-            "ci_graph": 7
+            "ci_graph": "7"
         },
         {
             "id": 14,
@@ -208,7 +208,7 @@
             "ci_no": null,
             "tone": null,
             "vs": 1,
-            "ci_graph": 0
+            "ci_graph": "0"
         },
         {
             "id": 15,
@@ -223,7 +223,7 @@
             "ci_no": null,
             "tone": null,
             "vs": 1,
-            "ci_graph": 0
+            "ci_graph": "0"
         },
         {
             "id": 16,
@@ -238,7 +238,7 @@
             "ci_no": null,
             "tone": null,
             "vs": 0,
-            "ci_graph": 0
+            "ci_graph": "0"
         },
         {
             "id": 17,
@@ -253,7 +253,7 @@
             "ci_no": null,
             "tone": null,
             "vs": 0,
-            "ci_graph": 0
+            "ci_graph": "0"
         }
     ]
 }

@@ -9,14 +9,16 @@
             document.getElementsByTagName('input')[0].setAttribute('max', totalTicks -1);
             
             var sliderEl = document.getElementById('sliderticks')
+            // set a constant padding value to align the numbers in the slider with the slider itself
             var constantPaddingLeft = '10px';
+            var PADDING = 4;
             for (let i = 0 ; i < totalTicks ; i++) {
                 let listItem = document.createElement('li');
 
                 listItem.style.width = 100/totalTicks + '%'
                 listItem.classList += 'ticks'
                 if (i > 0) {
-                    listItem.style.paddingLeft += ( parseFloat(constantPaddingLeft.split('px')[0]) + 4*i) + 'px';
+                    listItem.style.paddingLeft += ( parseFloat(constantPaddingLeft.split('px')[0]) + PADDING*i) + 'px';
                 }
                 
                 let snippet = document.createTextNode((i+1)*5);
