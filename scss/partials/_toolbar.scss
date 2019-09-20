@@ -90,14 +90,23 @@
     span.label{
         margin: -3px 5px;
     }
-    
-    .labelValue, .labelValue1 {
+
+    .labelValue, .labelValue1 , .labelValue2{
         line-height: 1.5;
     }
 
     .labelValue1 {
+        padding-right: 45px;
+    }
+
+    .labelValue2 {
+        padding-right: 25px;
+    }
+
+    .sample {
         padding-right: 30px;
     }
+
     span.label.org {
         background: #1f77b4;
         display: inline-block;

@@ -152,11 +152,19 @@ navbar {
   margin: -3px 5px;
 }
 
-.legendsContainer .labelValue, .legendsContainer .labelValue1 {
+.legendsContainer .labelValue, .legendsContainer .labelValue1, .legendsContainer .labelValue2 {
   line-height: 1.5;
 }
 
 .legendsContainer .labelValue1 {
+  padding-right: 45px;
+}
+
+.legendsContainer .labelValue2 {
+  padding-right: 25px;
+}
+
+.legendsContainer .sample {
   padding-right: 30px;
 }
 
