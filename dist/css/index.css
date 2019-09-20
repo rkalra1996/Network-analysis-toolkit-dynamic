@@ -105,7 +105,7 @@ navbar {
 .video-details .container .title {
   text-align: center;
   margin: 0;
-  padding: 10px 0;
+  padding: 10px 5px;
   font-size: 1.2rem;
   font-weight: bold;
 }
@@ -153,12 +153,16 @@ navbar {
   margin: -3px 5px;
 }
 
-.legendsContainer .labelValue {
+.legendsContainer .labelValue, .legendsContainer .labelValue1 {
   line-height: 1.5;
 }
 
+.legendsContainer .labelValue1 {
+  padding-right: 30px;
+}
+
 .legendsContainer span.label.org {
-  background: #f09ac4;
+  background: #1f77b4;
   display: inline-block;
   width: 20px;
   border-radius: 50%;
@@ -166,7 +170,7 @@ navbar {
 }
 
 .legendsContainer span.label.att {
-  background: #b693c4;
+  background: #ff7f0e;
   display: inline-block;
   width: 20px;
   border-radius: 50%;
@@ -184,6 +188,14 @@ navbar {
 
 .legendsContainer span.label.vOn {
   background: #4CAF50;
+  display: inline-block;
+  width: 20px;
+  border-radius: 50%;
+  height: 20px;
+}
+
+.legendsContainer span.label.vAct {
+  background: #00ffd0;
   display: inline-block;
   width: 20px;
   border-radius: 50%;
@@ -216,7 +228,7 @@ svg {
 }
 
 .graphContainer {
-  height: 80vh;
+  height: 75vh;
   background-color: white;
   width: 95%;
   margin: auto;
@@ -392,7 +404,8 @@ input[type=range]:focus::-ms-fill-upper {
 }
 
 .buttonContainer {
-  margin: 50px 0;
+  margin: 0;
+  margin-top: 50px;
   text-align: center;
 }
 

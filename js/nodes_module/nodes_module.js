@@ -77,12 +77,20 @@ var nodeModule = (function (d3) {
         // check if a minicircle is needed
         var miniCircle = group.select(`[id="${nodeDetails.pid}_mini"]`)._groups[0][0] !== undefined ? group.select(`[id="${nodeDetails.pid}_mini"]`) : group.append('circle').attr('id', nodeDetails.pid + '_mini');
         // The main circle representing the node
+        var activeCircle;
+       if (svgContainer.select(`[class="activenode"]`)._groups[0][0] !== undefined) {
+           svgContainer.select(`[class="activenode"]`)._groups[0][0].remove();
+           activeCircle = group.append('circle').attr('class', 'activenode')
+       } else {
+           activeCircle = group.append('circle').attr('class', 'activenode');
+       }
+
         circle
             .data([nodeDetails])
             .attr("cx", nodeDetails.x)
             .attr("cy", nodeDetails.y)
             .attr("r", 20 + (nodeDetails.cdoi / 100))
-            .attr('fill', nodeDetails.ptype === 'H' ? '#f09ac3' : '#b693c4')
+            .attr('fill', nodeDetails.ptype === 'Hub' ? '#1f77b4' : '#ff7f0e')
             .on('mouseover', function(d){
                 toolTipp.html(_tooltipTemplate(d))
                 console.log(d3.event);
@@ -104,10 +112,16 @@ var nodeModule = (function (d3) {
             .append('circle');
 
         // The mini circle which store the video status
+
+        activeCircle.attr('cx', nodeDetails.x)
+           .attr('cy', nodeDetails.y)
+           .attr('r', 15)
+           .attr('fill', '#00ffd0');
+
         miniCircle
             .attr('cx', nodeDetails.x + 18)
             .attr('cy', nodeDetails.y - 14 -(nodeDetails.cdoi / 100))
-            .attr('r', 5)
+            .attr('r', 8)
             .attr('fill', nodeDetails.vs ? '#4CAF50' : 'red');
         // add the flicker basis its graph interaction
         _startFlicker(circle,miniCircle,nodeDetails)

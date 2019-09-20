@@ -67,7 +67,7 @@ var dataModule = (function (d3) {
     
     var getData = function (cb) {
         if (d3) {
-            d3.json('./../data/data.json', (err, data) => {
+            d3.json('./../data/pharma.json', (err, data) => {
                 if (data) {
                     var originaldata = data.data;//17
                     // var dataForAxis = filterdata(originaldata);//

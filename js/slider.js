@@ -18,7 +18,7 @@
                 listItem.style.width = 100/totalTicks + '%'
                 listItem.classList += 'ticks'
                 if (i > 0) {
-                    listItem.style.paddingLeft += ( parseFloat(constantPaddingLeft.split('px')[0]) + PADDING*i) + 'px';
+                    listItem.style.paddingLeft += ( parseFloat(constantPaddingLeft.split('px')[0]) + PADDING) + 'px';
                 }
                 
                 let snippet = document.createTextNode((i+1)*5);
