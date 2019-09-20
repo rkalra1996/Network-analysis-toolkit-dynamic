@@ -30,7 +30,7 @@ navbar {
 }
 
 .navbarContent .title {
-  padding-top: 27px;
+  padding-top: 20px;
   text-align: center;
 }
 
@@ -174,7 +174,7 @@ navbar {
   margin-left: -2px;
 }
 
-.legendsContainer span.label.vOn {
+.legendsContainer span.label.vOff {
   background: red;
   display: inline-block;
   width: 20px;
@@ -182,16 +182,16 @@ navbar {
   height: 20px;
 }
 
-.legendsContainer span.label.vOff {
-  background: green;
+.legendsContainer span.label.vOn {
+  background: #4CAF50;
   display: inline-block;
-  width: 18px;
+  width: 20px;
   border-radius: 50%;
   height: 20px;
 }
 
 .Positive {
-  color: green;
+  color: #4CAF50;
 }
 
 .Negative {
@@ -200,6 +200,19 @@ navbar {
 
 .Neutral {
   color: black;
+}
+
+.initialText {
+  text-align: center;
+  color: lightslategrey;
+  font-size: 1.4rem;
+  position: absolute;
+  left: 40%;
+  top: 45%;
+}
+
+svg {
+  position: absolute;
 }
 
 .graphContainer {
@@ -297,7 +310,6 @@ input[type=range]::-webkit-slider-thumb {
   cursor: pointer;
   -webkit-appearance: none;
   margin-top: -10.4px;
-  z-index: 9999;
 }
 
 input[type=range]:focus::-webkit-slider-runnable-track {

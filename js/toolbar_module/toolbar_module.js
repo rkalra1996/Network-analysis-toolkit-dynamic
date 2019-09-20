@@ -35,11 +35,11 @@ var toolbarModule = (function(jQuery){
         if (dataToUse === -1) {
         // sequence completed 
             el.empty();
-            el.html('<p style="margin: 0; text-align: center; padding-bottom: 5px;">Sequence Complete !</p>');
+            el.html('<p style="margin: 0; text-align: center; padding-bottom: 5px;">Analysis Complete !</p>');
 
-            setTimeout(function(){
+            /* setTimeout(function(){
                 coreEl.css('opacity', 0)
-            }, 2000);
+            }, 2000); */
         } else {
             let name = dataToUse.pname || 'NA';
             let type = dataToUse.ptype || 'NA';

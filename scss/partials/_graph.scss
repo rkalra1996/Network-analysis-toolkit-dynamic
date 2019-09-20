@@ -1,3 +1,7 @@
+svg {
+    position : absolute;
+}
+
 .graphContainer {
     height: 80vh;
     background-color: white;
@@ -6,4 +10,5 @@
     margin-top: 20px;
     position: relative;
     @include general-box-shadow;
+    // z-index: -1;
 }

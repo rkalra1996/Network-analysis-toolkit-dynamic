@@ -85,11 +85,11 @@ var nodeModule = (function (d3) {
             .attr('fill', nodeDetails.ptype === 'H' ? '#f09ac3' : '#b693c4')
             .on('mouseover', function(d){
                 toolTipp.html(_tooltipTemplate(d))
-                
+                console.log(d3.event);
                 d3.select('#tooltipContainer')
                     .style('position', 'absolute')
-                    .style('left', d3.event.x + 30 + 'px')
-                    .style('top', d3.event.y + 'px')
+                    .style('left', d3.event.pageX - 50 + 'px')
+                    .style('top', d3.event.pageY - 100 + 'px')
                     .transition()
                     .duration(500)
                         .style('display', 'block')
@@ -108,7 +108,7 @@ var nodeModule = (function (d3) {
             .attr('cx', nodeDetails.x + 18)
             .attr('cy', nodeDetails.y - 14 -(nodeDetails.cdoi / 100))
             .attr('r', 5)
-            .attr('fill', nodeDetails.vs ? 'green' : 'red');
+            .attr('fill', nodeDetails.vs ? '#4CAF50' : 'red');
         // add the flicker basis its graph interaction
         _startFlicker(circle,miniCircle,nodeDetails)
     }

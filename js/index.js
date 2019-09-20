@@ -1,7 +1,6 @@
 (function (d3) {
     var w = $("#graphContainer").width();
-    // var h = $("#graphContainer").height();
-    var h = '600px';
+    var h = $("#graphContainer").height();
     var svg = d3.select("#graphContainer")
         .append("svg")
         .attr("width", w)
@@ -13,6 +12,12 @@
 
             // set the click event on the button
             document.getElementById('startBtn').addEventListener('click', function($event){
+                // remove the node details initially
+                let coreEl = $('.node-details');
+                    coreEl.css('opacity', 0);
+                // activate the svg and remove the text message display...
+                d3.select('.initialText')
+                .style('display', 'none');
                 //start the sequence
                 d3.selectAll("svg > *").remove();
                 sliderModule.moveSlider(0);
@@ -24,7 +29,7 @@
         }
     })
 
-    function StartLoop(dataToLoop, intervalTimeout = 1000) {
+    function StartLoop(dataToLoop, intervalTimeout = 5000) {
         let index = -1;
         let totalIterations = dataToLoop.length;
 
