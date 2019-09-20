@@ -1,6 +1,5 @@
 navbar {
     display: block;
-    height: 10vh;
     background-color: white;;
     font-size: 1.6rem;
 }
@@ -8,7 +7,7 @@ navbar {
 .navbarContent {
     height: 100%;
     .title {
-        padding-top: 20px;
+        padding: .25em;
         text-align: center;
     }
 }
