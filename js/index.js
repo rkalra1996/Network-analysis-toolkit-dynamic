@@ -6,7 +6,9 @@
         .attr("width", w)
         .attr("height", h);
 
-    dataModule.getGraphData(function (data) {
+    var videoID = urlHandler.videoIdToLoad;
+
+    dataModule.getGraphData(videoID, function (data) {
         if (data) {
             sliderModule.setSlider(data);
 

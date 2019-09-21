@@ -1,6 +1,24 @@
 var dataModule = (function (d3) {
 
 
+    function _getDataFromId(videIdToFetch, dataToUse) {
+        // the function will return the data object or -1
+        console.log('video to fetch is', videIdToFetch);
+        console.log('data to use is ', dataToUse);
+
+        let fetchedVideo = dataToUse.videos.filter(function(filter){
+            return filter.id == videIdToFetch;
+        });
+
+        if (fetchedVideo.length) {
+            return fetchedVideo;
+        }
+        else {
+            alert('invalid or non existent video id provided');
+            return -1;
+        }
+    }
+
     var filterdata = function (data) {
         var flags = [],
             output = [],
@@ -65,19 +83,34 @@ var dataModule = (function (d3) {
         return networkdata;
     }
     
-    var getData = function (cb) {
+    var getData = function (video_id, cb) {
+        console.log('video id recieved is ', video_id);
         if (d3) {
-            d3.json('./../data/pharma.json', (err, data) => {
+            d3.json('./../data/multiple_videos.json', (err, data) => {
                 if (data) {
-                    var originaldata = data.data;//17
-                    // var dataForAxis = filterdata(originaldata);//
-                    originaldata = createAxis(originaldata.length, ($("#graphContainer").height() / 2.5), originaldata, ($("#graphContainer").width()), ($("#graphContainer").height()))
-                    // originaldata = circle(100, originaldata.length, window.innerWidth / 2, window.innerHeight / 2, originaldata)
-                    console.log('data fetched');
-                    // merge data to add coordinates
-                    // let x =Object.assign({}, originaldata,dataForAxis)
-                    console.log(originaldata);
-                    cb(originaldata)
+                    // check for the video id needed and its relevant data
+
+                    let fetchedData = _getDataFromId(video_id, data);
+
+                    if (fetchedData !== -1) {
+                        var originaldata = fetchedData[0].data;//17
+                        // var dataForAxis = filterdata(originaldata);//
+                        originaldata = createAxis(originaldata.length, ($("#graphContainer").height() / 2.5), originaldata, ($("#graphContainer").width()), ($("#graphContainer").height()))
+                        console.log('data fetched');
+                        // set the video details
+                        toolbarModule.updateVideDetails({
+                            name: fetchedData[0].vname,
+                            duration: fetchedData[0].vduration,
+                            hubs: fetchedData[0].vhubs,
+                            heldOn: fetchedData[0].vheldOn
+                        })
+                        cb(originaldata)
+                    } else {
+                        console.log('will not proceed unless correct video id is passed in the query string');
+                        // hide the start button
+                        $('#startBtn').css('display', 'none');
+                        $('#initialText > h3').text('No Information available to analyse');
+                    }
                 } else {
                     console.log('no data fetched');
                     cb(undefined);

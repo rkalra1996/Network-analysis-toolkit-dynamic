@@ -103,6 +103,7 @@ navbar {
   width: 250px;
   margin-top: 20px;
   margin-right: 20px;
+  opacity: 0;
 }
 
 .video-details .container {

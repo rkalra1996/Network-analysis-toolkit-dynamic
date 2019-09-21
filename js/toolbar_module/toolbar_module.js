@@ -1,8 +1,7 @@
 var toolbarModule = (function(jQuery){
 
-    function _getNodeDetailsTemplate(elementToUse, data) {
+    function _renderNodeDetailsTemplate(elementToUse, data) {
         let el = elementToUse;
-        console.log(data.name);
 
         let imageUrl = `./data/profile/images/${data.name.split(' ').join('_')}.jpg`;
         let fallbakUrl = './data/profile/images/fallback_image.jpg';
@@ -33,6 +32,59 @@ var toolbarModule = (function(jQuery){
         el.html(elemTemplate);
     }
 
+
+    function getHubTemplate(hubs) {
+        // to create a template using the hub array
+
+        if (hubs.length) {
+            let template = '';
+            hubs.forEach((hub,index) => {
+                template += `
+                <div class="row">
+                    <p class="name">Hub ${index+1}</p>
+                    <p class="value">${hub}</p>
+                </div>
+                `;
+            });
+            return template;
+        }
+        else {
+            return `
+            <div class="row">
+                <p class="name">Hubs</p>
+                <p class="value">Not Present</p>
+          </div>
+          `;
+        }
+    }
+
+    function _renderVideoDetailsTemplate(elementToUse, data) {
+        console.log('video details to render are ', data);
+
+        let el = elementToUse;
+
+        let nameTemplate = `<p class="title">${data.name}</p>`;
+        let bodyTemplate = `
+        <div class="body">
+            <div class="row">
+                <p class="name">Held On</p>
+                <p class="value">${data.heldOn}</p>
+            </div>
+            <div class="row">
+                <p class="name">Duration</p>
+                <p class="value">${data.duration}</p>
+            </div>
+            ${getHubTemplate(data.hubs)}
+      </div>
+        `;
+
+        // let hubTemplate = getHubTemplate(data.hubs);
+
+        // join all the templates and render it
+        let finalTemplate = nameTemplate + bodyTemplate;
+        el.html(finalTemplate);
+    }
+
     var _updateNodeDetails = function(dataToUse) {
 
         let coreEl = jQuery('.node-details');
@@ -53,12 +105,24 @@ var toolbarModule = (function(jQuery){
             let gender = dataToUse.gender || 'Not Specified';
             let tone = dataToUse.tone || 'NA';
 
-        _getNodeDetailsTemplate(el,{name, type, gender, tone});
+        _renderNodeDetailsTemplate(el,{name, type, gender, tone});
         }
 
     }
 
-    var _updateVideoDetails = function(dataToUse) {}
+    var _updateVideoDetails = function(dataToUse) {
+        let coreEl = jQuery('.video-details');
+
+        let el = jQuery('div.video-details > div.container');
+        el.empty();
+         let name = dataToUse.name || 'Name Not Available';
+         let duration = dataToUse.duration || 'NA';
+         let heldOn = dataToUse.heldOn || 'NA';
+         let hubs = dataToUse.hubs || [];
+
+        _renderVideoDetailsTemplate(el, {name, duration, heldOn, hubs});
+        coreEl.css('opacity', 1);
+    }
     
     return {
         updateNodeDetails : _updateNodeDetails,
