@@ -2,7 +2,14 @@ var toolbarModule = (function(jQuery){
 
     function _getNodeDetailsTemplate(elementToUse, data) {
         let el = elementToUse;
+        console.log(data.name);
+
+        let imageUrl = `./data/profile/images/${data.name.split(' ').join('_')}.jpg`;
+        let fallbakUrl = './data/profile/images/fallback_image.jpg';
         let elemTemplate = `
+        <div class="imageContainer">
+            <img src='${imageUrl}' onerror='this.onerror = null; this.src="${fallbakUrl}"' />
+        </div>
         <div class="row">
             <p class="name">Name</p>
             <p class="value">${data.name}</p>
