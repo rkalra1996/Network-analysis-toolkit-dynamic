@@ -85,9 +85,18 @@ var toolbarModule = (function(jQuery){
         el.html(finalTemplate);
     }
 
+    function applyBorder(selection, type) {
+        if (!!type && typeof type === 'string') {
+            let colorCode = type && type.includes('Hub') ? '#1f77b4' : '#ff7f0e';
+        selection.children().css({"border": `5px solid ${colorCode}`});
+        }
+    }
+
     var _updateNodeDetails = function(dataToUse) {
 
         let coreEl = jQuery('.node-details');
+
+        applyBorder(coreEl,dataToUse.ptype);
         coreEl.css('opacity', 1);
 
         let el = jQuery('div.node-details > div.container > div.body');
