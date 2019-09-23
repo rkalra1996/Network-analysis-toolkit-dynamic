@@ -1,12 +1,15 @@
 .buttonContainer {
-    margin : 0;
+    margin: 0;
+    position: absolute;
+    right: 70px;
     margin-top: 50px;
+    top: 35%;
     text-align: center;
 }
 
 
 .generalBtn {
-    min-width: 100px;
+    min-width: 250px;
     min-height: 40px;
     text-align: center;
     font-size: 1.2rem;
@@ -18,6 +21,7 @@
 }
 
 .generalBtn.start {
-    background-color: #FF5722;
+    color: black;
+    background-color: #a8abe3;
 
 }

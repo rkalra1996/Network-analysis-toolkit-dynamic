@@ -7,4 +7,13 @@
 @import './partials/tooltip';
 @import './partials/slider';
 @import './partials/buttons';
+@import './partials/image_container';
+.clearfix {
+    overflow: auto;
+  }
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
 // this is the main index file to be linked in the html

@@ -49,7 +49,7 @@ var dataModule = (function (d3) {
         // update the participants ia number pointing to any hub to now point to first hub id
 
         graphHub = graphData.find(function(node){
-            return node.ptype.includes('Hub')
+            return node.ptype.toLowerCase().includes('hub')
         });
         if (graphHub) {
             console.log(graphHub);
@@ -57,7 +57,7 @@ var dataModule = (function (d3) {
             graphHubID = graphHub.pid;
         }
         else {
-            alert('Error : There is no hub present in the graph, please load a correct dataset');
+           // alert('Error : There is no hub present in the graph, please load a correct dataset');
         }
     }
 

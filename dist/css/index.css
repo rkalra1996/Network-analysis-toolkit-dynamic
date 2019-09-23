@@ -12,6 +12,7 @@ body {
   min-width: 100%;
   min-height: 100%;
   background-color: #eeeeee;
+  font-family: 'Muli', sans-serif;
 }
 
 #mainContainer {
@@ -29,8 +30,12 @@ navbar {
 }
 
 .navbarContent .title {
-  padding: .25em;
+  padding: .60em;
   text-align: center;
+}
+
+.logo {
+  float: left;
 }
 
 .toolbar {
@@ -424,12 +429,15 @@ input[type=range]:focus::-ms-fill-upper {
 
 .buttonContainer {
   margin: 0;
+  position: absolute;
+  right: 70px;
   margin-top: 50px;
+  top: 35%;
   text-align: center;
 }
 
 .generalBtn {
-  min-width: 100px;
+  min-width: 250px;
   min-height: 40px;
   text-align: center;
   font-size: 1.2rem;
@@ -441,6 +449,88 @@ input[type=range]:focus::-ms-fill-upper {
 }
 
 .generalBtn.start {
-  background-color: #FF5722;
+  color: black;
+  background-color: #a8abe3;
+}
+
+#imageContainer {
+  max-width: 100%;
+  position: absolute;
+  margin: 3em;
+}
+
+#imageContainer .row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+#imageContainer .column41 {
+  width: 50%;
+}
+
+#imageContainer .column4 {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  margin: 1em;
+}
+
+#imageContainer .column4 img {
+  width: 420px;
+  height: 420px;
+}
+
+.heading {
+  font-size: 1.4rem;
+  font-weight: bold;
+  padding: 1em 0;
+}
+
+.imageCarousel {
+  position: relative;
+  margin: auto;
+  text-align: center;
+}
+
+.imageCarousel .slick-slider {
+  position: relative;
+  display: block;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -khtml-user-select: none;
+  -ms-touch-action: pan-y;
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.imageCarousel .slick-list {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.imageCarousel .slick-prev:before, .imageCarousel .slick-next:before {
+  font-size: 70px;
+  color: #EA8496;
+  line-height: inherit;
+  font-weight: bold;
+}
+
+.clearfix {
+  overflow: auto;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
 }
 /*# sourceMappingURL=index.css.map */

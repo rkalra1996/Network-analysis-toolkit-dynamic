@@ -6,9 +6,6 @@ var toolbarModule = (function(jQuery){
         let imageUrl = `./data/profile/images/${data.name.split(' ').join('_')}.jpg`;
         let fallbakUrl = './data/profile/images/fallback_image.jpg';
         let elemTemplate = `
-        <div class="imageContainer">
-            <img src='${imageUrl}' onerror='this.onerror = null; this.src="${fallbakUrl}"' />
-        </div>
         <div class="row">
             <p class="name">Name</p>
             <p class="value">${data.name}</p>
@@ -87,7 +84,7 @@ var toolbarModule = (function(jQuery){
 
     function applyBorder(selection, type) {
         if (!!type && typeof type === 'string') {
-            let colorCode = type && type.includes('Hub') ? '#1f77b4' : '#ff7f0e';
+            let colorCode = type && type.toLowerCase().includes('hub') ? '#1f77b4' : '#ff7f0e';
         selection.children().css({"border": `5px solid ${colorCode}`});
         }
     }
@@ -102,8 +99,8 @@ var toolbarModule = (function(jQuery){
         let el = jQuery('div.node-details > div.container > div.body');
         if (dataToUse === -1) {
         // sequence completed 
-            el.empty();
-            el.html('<p style="margin: 0; text-align: center; padding-bottom: 5px;">Analysis Complete !</p>');
+            // el.empty();
+            // el.html('<p style="margin: 0; text-align: center; padding-bottom: 5px;">Analysis Complete !</p>');
 
             /* setTimeout(function(){
                 coreEl.css('opacity', 0)
