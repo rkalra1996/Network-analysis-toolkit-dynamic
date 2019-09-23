@@ -32,6 +32,35 @@ var dataModule = (function (d3) {
         return output
     }
 
+    var graphHubID;
+    var graphHub;
+
+    var _getGraphHubID = function(){
+        return graphHubID;
+    }
+
+    var _getGraphHub = function() {
+        return graphHub;
+    }
+    // update the hub id for the complete data
+    var _updateHubsForGraph = function(graphData) {
+        // find the first hub and store its id
+        // update all other hubs with the id to be the first hub id
+        // update the participants ia number pointing to any hub to now point to first hub id
+
+        graphHub = graphData.find(function(node){
+            return node.ptype.includes('Hub')
+        });
+        if (graphHub) {
+            console.log(graphHub);
+
+            graphHubID = graphHub.pid;
+        }
+        else {
+            alert('Error : There is no hub present in the graph, please load a correct dataset');
+        }
+    }
+
     var createAxis = function (numNodes, radius, networkdata, contwidth, contheight) {
         var centerX = contwidth / 2;
         var centerY = contheight / 2;
@@ -124,6 +153,9 @@ var dataModule = (function (d3) {
     }
 
     return {
-        getGraphData: getData
+        getGraphData: getData,
+        updateHubs: _updateHubsForGraph,
+        getGraphHubID : _getGraphHubID,
+        getGraphHub : _getGraphHub
     }
 }(d3));
