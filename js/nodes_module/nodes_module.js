@@ -9,6 +9,77 @@ var nodeModule = (function (d3) {
     }
 
 
+    var _recursive_transitions = function(selection, selectionData) {
+        selectionData = selection.data()[0];
+        let totalFlickerValue = parseFloat(selectionData.ci_graph);
+
+        // if the node hasn't interacted, it should not flicker
+        if (selectionData.ia !== -1) {
+            selection
+            .transition()
+            .duration(1000 / totalFlickerValue)
+            .attr("stroke-width", 2)
+            .attr("r", 15)
+            .transition()
+            .duration(1000 / totalFlickerValue)
+            .attr("stroke-width", 3)
+            .attr("r", selectionData.original_radius)
+            .on("end", _recursive_transitions.bind(null,selection, selectionData));
+        }
+    }
+
+    function _startFlicker(circle, miniCircle, data){
+        // preserve the original radius
+        circle.data()[0]['original_radius'] = circle.attr('r');
+        _recursive_transitions(circle, data);
+    }
+
+    var _renderToGraph = function(circle, activeCircle, miniCircle, nodeDetails) {
+        
+        circle
+        .data([nodeDetails])
+        .attr("cx", nodeDetails.x)
+        .attr("cy", nodeDetails.y)
+        .attr("r", 20 + (nodeDetails.cdoi / 100))
+        .attr('fill', nodeDetails.ptype === 'Hub' ? colorCodes.hubColor : colorCodes.spokeColor)
+        .on('mouseover', function(d){
+            toolTipp.html(_tooltipTemplate(d))
+            console.log(d3.event);
+            d3.select('#tooltipContainer')
+                .style('position', 'absolute')
+                .style('left', d3.event.pageX - 50 + 'px')
+                .style('top', d3.event.pageY - 100 + 'px')
+                .transition()
+                .duration(500)
+                    .style('display', 'block')
+                    .style('z-index', 10)
+        })
+        .on('mouseout', function(d){
+            d3.select('#tooltipContainer')
+                .transition()
+                .duration(500)
+                    .style('display', 'none');
+        })
+        .append('circle');
+
+    // The mini circle which store the video status
+
+    activeCircle.attr('cx', nodeDetails.x)
+       .attr('cy', nodeDetails.y)
+       .attr('r', 15)
+       .attr('fill', '#00ffd0');
+
+    miniCircle
+        .attr('cx', nodeDetails.x + 18)
+        .attr('cy', nodeDetails.y - 14 -(nodeDetails.cdoi / 100))
+        .attr('r', 8)
+        .attr('fill', nodeDetails.vs ? colorCodes.videoStatusOnColor : colorCodes.videoStatusOffColor);
+    // add the flicker basis its graph interaction
+    _startFlicker(circle,miniCircle,nodeDetails)
+
+    }
+
+
     var _handleGroupCreation = function(nodeDetails, svgContainer) {
 
 
@@ -40,51 +111,7 @@ var nodeModule = (function (d3) {
            activeCircle = group.append('circle').attr('class', 'activenode');
        }
 
-        circle
-            .data([nodeDetails])
-            .attr("cx", nodeDetails.x)
-            .attr("cy", nodeDetails.y)
-            .attr("r", 20 + (nodeDetails.cdoi / 100))
-            .attr('fill', nodeDetails.ptype === 'Hub' ? colorCodes.hubColor : colorCodes.spokeColor)
-            .on('mouseover', function(d){
-                toolTipp.html(_tooltipTemplate(d))
-                console.log(d3.event);
-                d3.select('#tooltipContainer')
-                    .style('position', 'absolute')
-                    .style('left', d3.event.pageX - 50 + 'px')
-                    .style('top', d3.event.pageY - 100 + 'px')
-                    .transition()
-                    .duration(500)
-                        .style('display', 'block')
-                        .style('z-index', 10)
-            })
-            .on('mouseout', function(d){
-                d3.select('#tooltipContainer')
-                    .transition()
-                    .duration(500)
-                        .style('display', 'none');
-            })
-            .append('circle');
-
-        // The mini circle which store the video status
-
-        activeCircle.attr('cx', nodeDetails.x)
-           .attr('cy', nodeDetails.y)
-           .attr('r', 15)
-           .attr('fill', '#00ffd0');
-
-        miniCircle
-            .attr('cx', nodeDetails.x + 18)
-            .attr('cy', nodeDetails.y - 14 -(nodeDetails.cdoi / 100))
-            .attr('r', 8)
-            .attr('fill', nodeDetails.vs ? colorCodes.videoStatusOnColor : colorCodes.videoStatusOffColor);
-        // add the flicker basis its graph interaction
-        _startFlicker(circle,miniCircle,nodeDetails)
-
-
-
-
-
+       _renderToGraph(circle, activeCircle, miniCircle, nodeDetails);
     }
 
 
@@ -104,14 +131,15 @@ var nodeModule = (function (d3) {
         if (uniqueHub) {
             debugger;
             let hubGroup = svgContainer.select(`[id="${currentNodeData.pid}_group"]`);
-
+            let hubCircle = hubGroup.select(`[id="${currentNodeData.pid}"]`)
+            let hubMiniCircle = hubGroup.select(`[id="${currentNodeData.pid}_mini"]`)
             // make sure you redirect the links of new hub into the already existing hub
             // example if hub b spoke after node 3 then originally the link was from hub b to node 3
             // now this should be changed to a link from hub a to node 3 but the details on the left will
             // be of the new hub b.
 
-            currentNodeData.ia = uniqueHub.data().pid;
-            let activeHubCircle;
+            // currentNodeData.ia = uniqueHub.data().pid;
+            var activeHubCircle;
 
             if (svgContainer.select(`[class="activenode"]`)._groups[0][0] !== undefined) {
                 svgContainer.select(`[class="activenode"]`)._groups[0][0].remove();
@@ -119,6 +147,7 @@ var nodeModule = (function (d3) {
             } else {
                 activeHubCircle = hubGroup.append('circle').attr('class', 'activenode');
             }
+            _renderToGraph(hubCircle, activeHubCircle,hubMiniCircle, currentNodeData );
 
         }
         else {
@@ -153,31 +182,6 @@ var nodeModule = (function (d3) {
                         <p class="rowValue">${data.tone}</p>
                     </div>
                 </div>`;
-    }
-
-    var _recursive_transitions = function(selection, selectionData) {
-        selectionData = selection.data()[0];
-        let totalFlickerValue = parseFloat(selectionData.ci_graph);
-
-        // if the node hasn't interacted, it should not flicker
-        if (selectionData.ia !== -1) {
-            selection
-            .transition()
-            .duration(1000 / totalFlickerValue)
-            .attr("stroke-width", 2)
-            .attr("r", 15)
-            .transition()
-            .duration(1000 / totalFlickerValue)
-            .attr("stroke-width", 3)
-            .attr("r", selectionData.original_radius)
-            .on("end", _recursive_transitions.bind(null,selection, selectionData));
-        }
-    }
-
-    var _startFlicker = function(circle, miniCircle, data){
-        // preserve the original radius
-        circle.data()[0]['original_radius'] = circle.attr('r');
-        _recursive_transitions(circle, data);
     }
 
     var _createNode = function(nodeDetails, svg)  {

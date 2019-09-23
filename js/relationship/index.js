@@ -4,7 +4,7 @@ var relationshipModule = (function () {
         arrowstatus = true;
         svg.append("svg:defs").append("svg:marker")
             .attr("id", "triangle")
-            .attr("refX", 6)
+            .attr("refX", 21)
             .attr("refY", 6)
             .attr("markerWidth", 30)
             .attr("markerHeight", 30)
