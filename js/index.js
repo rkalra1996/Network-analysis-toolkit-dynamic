@@ -31,7 +31,7 @@
         }
     })
 
-    function StartLoop(dataToLoop, intervalTimeout = 5000) {
+    function StartLoop(dataToLoop, intervalTimeout = 1000) {
         let index = -1;
         let totalIterations = dataToLoop.length;
 
