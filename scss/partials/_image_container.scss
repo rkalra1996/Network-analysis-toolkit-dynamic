@@ -9,7 +9,8 @@
     margin: auto;
     display: flex;
     flex-wrap: wrap;
-    align-items: start;
+    flex-direction: row;
+    align-items: stretch;
 }
 
 .heading {
@@ -22,7 +23,7 @@
 
 .imageBlock {
     margin: 15px;
-    width: 41%;
+    width: 45%;
 
 }
 
@@ -33,19 +34,19 @@
 }
 
 .imageBlock.i2 {
-        width: 49%;
-        height: 30%;
-
-        img {
-            height: 50%;
-        }
+    img {
+        width: 98%;
+    }
 }
 
-.block-3-4
-{
+
+.flexBlock {
     display: flex;
-}
-.imageBlock.i4
-{
-    margin-left: 105px;
+    flex-direction: start;
+    .imageBlock.i3 {
+        width: 100%;
+        img {
+            width: 100%;
+        }
+    }
 }
