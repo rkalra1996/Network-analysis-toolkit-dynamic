@@ -31,6 +31,8 @@ var nodeModule = (function (d3) {
         console.log("sum", temp)
         let Circle = d3.select(`[id="${hub.pid}"]`);
 
+        // limit to 80
+        temp = temp > 80 ? 80 : temp;
         Circle.data()[0].original_radius = temp;
         Circle.data()[0].ci_graphdata = currentNode.ci_graph;
 
@@ -83,7 +85,7 @@ var nodeModule = (function (d3) {
             .data([nodeDetails])
             .attr("cx", nodeDetails.x)
             .attr("cy", nodeDetails.y)
-            .attr("r", 20 + (nodeDetails.cdoi / 100))
+            .attr("r", 15 + (nodeDetails.cdoi / 100))
             .attr('fill', nodeDetails.ptype.toLowerCase().includes('hub') ? colorCodes.hubColor : colorCodes.spokeColor)
             .on('mouseover', function (d) {
                 toolTipp.html(_tooltipTemplate(d))
@@ -109,13 +111,13 @@ var nodeModule = (function (d3) {
 
         activeCircle.attr('cx', nodeDetails.x)
             .attr('cy', nodeDetails.y)
-            .attr('r', 15)
+            .attr('r', 5)
             .attr('fill', '#00ffd0');
 
         miniCircle
-            .attr('cx', nodeDetails.x + 18)
-            .attr('cy', nodeDetails.y - 14 - (nodeDetails.cdoi / 100))
-            .attr('r', 8)
+            .attr('cx', nodeDetails.x + 10)
+            .attr('cy', nodeDetails.y - 10 - (nodeDetails.cdoi / 100))
+            .attr('r', 5)
             .attr('fill', nodeDetails.vs ? colorCodes.videoStatusOnColor : colorCodes.videoStatusOffColor);
         // add the flicker basis its graph interaction
         _startFlicker(circle, miniCircle, nodeDetails)
@@ -194,7 +196,7 @@ var nodeModule = (function (d3) {
             // _renderToGraph(hubCircle, activeHubCircle,hubMiniCircle, currentNodeData );
             activeHubCircle.attr('cx', uniqueHub.data()[0].x)
                 .attr('cy', uniqueHub.data()[0].y)
-                .attr('r', 15)
+                .attr('r', 5)
                 .attr('fill', '#00ffd0');
 
             _startFlicker(hubCircle, hubMiniCircle, currentNodeData)

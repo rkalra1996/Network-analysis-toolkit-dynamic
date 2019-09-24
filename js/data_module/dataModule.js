@@ -77,6 +77,15 @@ var dataModule = (function (d3) {
         }
     }
 
+
+    var _filterUniqueNodes = function(dataToFilter) {
+      /*   let filteredArrat = [];
+        dataToFilter.filter(function(node){
+            // send only unique nodes
+            !FilteredArray.indexOf(node.pid)
+        }); */
+    }
+
     var createAxis = function (numNodes, radius, networkdata, contwidth, contheight) {
         var centerX = contwidth / 2;
         var centerY = contheight / 2;
@@ -92,6 +101,8 @@ var dataModule = (function (d3) {
         // let uniqueNodes = filterdata(networkdata);
         // uniqueNodes = uniqueNodes.length;
 
+        // to find out exactly how many nodes needed to place and set their coordinates
+        // let uniqueNodes = _filterUniqueNodes(networkdata)
 
         for (i = 0; i < numNodes; i++) {
 
