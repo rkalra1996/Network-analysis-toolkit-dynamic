@@ -25,17 +25,19 @@ var nodeModule = (function (d3) {
 
     var increaseRadius = function (hub, currentNode) {
 
-        HUB_COI[hub.pid] = hub.cdoi;
-        HUB_COI[currentNode.pid] = currentNode.cdoi;
-        debugger;
-        // objectSum()
+        // HUB_COI[hub.pid] = hub.cdoi;
+        // HUB_COI[currentNode.pid] = currentNode.cdoi;
+        // debugger;
+        // // objectSum()
 
-        let temp = Object.values(HUB_COI).reduce(function (a, c) {
-            return a + c;
-        });
-        console.log("hub obj", HUB_COI);
-        console.log("total", temp)
-        temp = temp / 50;
+        // let temp = Object.values(HUB_COI).reduce(function (a, c) {
+        //     return a + c;
+        // });
+        // console.log("hub obj", HUB_COI);
+        // console.log("total", temp)
+        debugger;
+        var temp = currentNode.cdoi;
+        temp = temp / 150;
 
         console.log("sum", temp)
         let Circle = d3.select(`[id="${hub.pid}"]`);
@@ -59,6 +61,7 @@ var nodeModule = (function (d3) {
         } else {
             totalFlickerValue = parseFloat(selectionData.ci_graph);
         }
+        totalFlickerValue = totalFlickerValue / 2
         debugger;
         // if the node hasn't interacted, it should not flicker
         if (selectionData.ia !== -1) {
