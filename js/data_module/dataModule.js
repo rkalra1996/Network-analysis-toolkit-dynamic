@@ -79,12 +79,25 @@ var dataModule = (function (d3) {
 
 
     var _filterUniqueNodes = function(dataToFilter) {
-      /*   let filteredArrat = [];
-        dataToFilter.filter(function(node){
-            // send only unique nodes
-            !FilteredArray.indexOf(node.pid)
-        }); */
+        return filterdata(dataToFilter)
     }
+
+
+    function merge(a, b, prop){
+        var reduced = a.filter(function(aitem){
+            return ! b.find(function(bitem){
+
+                if(aitem[prop] === bitem[prop]){
+
+                    aitem['x'] = bitem['x'];
+                    aitem['y'] = bitem['y'];
+                };
+
+                return aitem[prop] === bitem[prop];
+            });
+        });
+        return a;
+      }
 
     var createAxis = function (numNodes, radius, networkdata, contwidth, contheight) {
         var centerX = contwidth / 2;
@@ -102,41 +115,45 @@ var dataModule = (function (d3) {
         // uniqueNodes = uniqueNodes.length;
 
         // to find out exactly how many nodes needed to place and set their coordinates
-        // let uniqueNodes = _filterUniqueNodes(networkdata)
+        let uniqueNodes = _filterUniqueNodes(networkdata)
+        // set coordinates
+        numNodes = uniqueNodes.length;
 
         for (i = 0; i < numNodes; i++) {
 
             angle = (i / (numNodes / 2)) * Math.PI; // Calculate the angle at which the element will be placed.
             // For a semicircle, we would use (i / numNodes) * Math.PI.
-            if (flags[networkdata[i].pid]) {
-                networkdata[i]["x"] = flags[networkdata[i].pid]["x"]
-                networkdata[i]["y"] = flags[networkdata[i].pid]["y"]
+            if (flags[uniqueNodes[i].pid]) {
+                uniqueNodes[i]["x"] = flags[uniqueNodes[i].pid]["x"]
+                uniqueNodes[i]["y"] = flags[uniqueNodes[i].pid]["y"]
                 continue;
             }
             if (i == 0) {
-                flags[networkdata[i]["pid"]] = {
+                flags[uniqueNodes[i]["pid"]] = {
                     "status": true,
                     "x": centerX - 20,
                     "y": centerY - 20
                 }
-                networkdata[i]["x"] = centerX - 20;
-                networkdata[i]["y"] = centerY - 20
+                uniqueNodes[i]["x"] = centerX - 20;
+                uniqueNodes[i]["y"] = centerY - 20
             } else {
 
                 x = Math.round(width / 2 + radius * Math.cos(angle) - 20);
                 y = Math.round(height / 2 + radius * Math.sin(angle) - 20);
                 // x = (radius * Math.cos(angle)) + (width / 2); // Calculate the x position of the element.
                 // y = (radius * Math.sin(angle)) + (width / 2); // Calculate the y position of the element.
-                flags[networkdata[i].pid] = {
+                flags[uniqueNodes[i].pid] = {
                     "status": true,
                     "x": x,
                     "y": y
                 }
-                networkdata[i]["x"] = x;
-                networkdata[i]["y"] = y;
+                uniqueNodes[i]["x"] = x;
+                uniqueNodes[i]["y"] = y;
             }
         }
-        return networkdata;
+        // set the defined nodes to all the duplicates
+        var mergedData = merge(networkdata, uniqueNodes, 'pid');
+        return mergedData;
     }
 
     var getData = function (video_id, cb) {
