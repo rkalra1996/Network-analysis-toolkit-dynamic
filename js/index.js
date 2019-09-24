@@ -55,7 +55,8 @@
                 window.clearInterval(interval);
                 interval = undefined;
                 // scroll to images
-                $(`#imageContainer_${urlHandler.videoIdToLoad + 1}`).css('display', 'block');
+                $(`#imageContainer_${+urlHandler.videoIdToLoad + 1}`).css('display', 'block');
+                debugger;
                 _scrollToBottom('imageSection');
                 return;
             }
