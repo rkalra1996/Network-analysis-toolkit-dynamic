@@ -34,16 +34,11 @@
     })
 
     function _scrollToBottom(container) {
-        debugger;
-        $('#imageCarousel').css('display', 'block');
-
+        $(`#${container}`).css('display', 'block');
         let pos = $(`#${container}`).offset().top;
-
         $('body, html').animate({
             scrollTop: pos
         });
-
-        $('.imageCarousel').slick();
     }
 
     function StartLoop(dataToLoop, intervalTimeout = 1000) {

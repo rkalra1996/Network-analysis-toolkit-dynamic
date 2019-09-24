@@ -804,6 +804,7 @@
          "vduration": "3 hrs",
          "vheldOn": "4 January 2018",
          "vhubs": ["ABC"],
+         "video_asset": "4th",
           "data" : [
             {
                 "id": "1",

@@ -12,17 +12,6 @@ var nodeModule = (function (d3) {
         videoStatusOffColor: 'red'
     }
 
-    var objectSum = function (obj) {
-        var sum = 0;
-        for (var el in obj) {
-            if (obj.hasOwnProperty(el)) {
-                sum += parseFloat(obj[el]);
-            }
-        }
-        return sum;
-    }
-
-
     var increaseRadius = function (hub, currentNode) {
 
         HUB_COI[hub.pid] = hub.cdoi;
