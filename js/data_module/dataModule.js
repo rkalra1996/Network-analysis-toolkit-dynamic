@@ -6,19 +6,36 @@ var dataModule = (function (d3) {
         console.log('video to fetch is', videIdToFetch);
         console.log('data to use is ', dataToUse);
 
-        let fetchedVideo = dataToUse.videos.filter(function(filter){
+        let fetchedVideo = dataToUse.videos.filter(function (filter) {
             return filter.id == videIdToFetch;
         });
 
         if (fetchedVideo.length) {
             return fetchedVideo;
-        }
-        else {
+        } else {
             alert('invalid or non existent video id provided');
             return -1;
         }
     }
+    var reduceSumCiGraph = function (data) {
+        debugger;
+        var cum_grphno;
+        var cum_cdoi;
+        data.forEach((element, i) => {
+            debugger;
+            if (i == 0) {
+                cum_grphno = parseInt(element.ci_graph);
+                cum_cdoi = parseInt(element.cdoi);
+            } else if (element.ptype.toLowerCase() == "hub") {
+                cum_grphno = cum_grphno + 1;
+                cum_cdoi = cum_cdoi + element.cdoi;
+                element.ci_graph = cum_grphno
+                element.cdoi = cum_cdoi;
+            }
+        });
+        return data;
 
+    }
     var filterdata = function (data) {
         var flags = [],
             output = [],
@@ -35,29 +52,28 @@ var dataModule = (function (d3) {
     var graphHubID;
     var graphHub;
 
-    var _getGraphHubID = function(){
+    var _getGraphHubID = function () {
         return graphHubID;
     }
 
-    var _getGraphHub = function() {
+    var _getGraphHub = function () {
         return graphHub;
     }
     // update the hub id for the complete data
-    var _updateHubsForGraph = function(graphData) {
+    var _updateHubsForGraph = function (graphData) {
         // find the first hub and store its id
         // update all other hubs with the id to be the first hub id
         // update the participants ia number pointing to any hub to now point to first hub id
 
-        graphHub = graphData.find(function(node){
+        graphHub = graphData.find(function (node) {
             return node.ptype.toLowerCase().includes('hub')
         });
         if (graphHub) {
             console.log(graphHub);
 
             graphHubID = graphHub.pid;
-        }
-        else {
-           // alert('Error : There is no hub present in the graph, please load a correct dataset');
+        } else {
+            // alert('Error : There is no hub present in the graph, please load a correct dataset');
         }
     }
 
@@ -111,7 +127,7 @@ var dataModule = (function (d3) {
         }
         return networkdata;
     }
-    
+
     var getData = function (video_id, cb) {
         console.log('video id recieved is ', video_id);
         if (d3) {
@@ -122,7 +138,9 @@ var dataModule = (function (d3) {
                     let fetchedData = _getDataFromId(video_id, data);
 
                     if (fetchedData !== -1) {
-                        var originaldata = fetchedData[0].data;//17
+                        var originaldata = fetchedData[0].data; //17
+                        originaldata = reduceSumCiGraph(originaldata)
+                        console.log("whole data: ", originaldata)
                         // var dataForAxis = filterdata(originaldata);//
                         originaldata = createAxis(originaldata.length, ($("#graphContainer").height() / 2.5), originaldata, ($("#graphContainer").width()), ($("#graphContainer").height()))
                         console.log('data fetched');
@@ -155,7 +173,7 @@ var dataModule = (function (d3) {
     return {
         getGraphData: getData,
         updateHubs: _updateHubsForGraph,
-        getGraphHubID : _getGraphHubID,
-        getGraphHub : _getGraphHub
+        getGraphHubID: _getGraphHubID,
+        getGraphHub: _getGraphHub
     }
 }(d3));
