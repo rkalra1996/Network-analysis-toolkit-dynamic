@@ -16,7 +16,7 @@ var nodeModule = (function (d3) {
 
         // HUB_COI[hub.pid] = hub.cdoi;
         // HUB_COI[currentNode.pid] = currentNode.cdoi;
-        // debugger;
+        // 
         // // objectSum()
 
         // let temp = Object.values(HUB_COI).reduce(function (a, c) {
@@ -24,7 +24,7 @@ var nodeModule = (function (d3) {
         // });
         // console.log("hub obj", HUB_COI);
         // console.log("total", temp)
-        debugger;
+        
         var temp = currentNode.cdoi;
         temp = temp / 150;
 
@@ -51,7 +51,7 @@ var nodeModule = (function (d3) {
             totalFlickerValue = parseFloat(selectionData.ci_graph);
         }
         totalFlickerValue = totalFlickerValue / 2
-        debugger;
+        
         // if the node hasn't interacted, it should not flicker
         if (selectionData.ia !== -1) {
             selection
@@ -71,13 +71,13 @@ var nodeModule = (function (d3) {
 
     function _startFlicker(circle, miniCircle, data) {
         // preserve the original radius
-        debugger;
+        
         circle.data()[0]['original_radius'] = circle.attr('r');
         _recursive_transitions(circle, data);
     }
 
     var _renderToGraph = function (circle, activeCircle, miniCircle, nodeDetails) {
-        debugger;
+        
 
         circle
             .data([nodeDetails])

@@ -6,7 +6,7 @@ var urlHandler = (function(){
         return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));  
       }
 
-      videoIdToLoad = getQueryStringValue('id');
+      videoIdToLoad = getQueryStringValue('id') ? getQueryStringValue('id') : 0;
 
       return {
           videoIdToLoad,

@@ -34,8 +34,8 @@
     })
 
     function _scrollToBottom(container) {
-        $(`#${container}`).css('display', 'block');
-        let pos = $(`#${container}`).offset().top;
+        $(`.${container}`).css('display', 'block');
+        let pos = $(`.${container}`).offset().top;
         $('body, html').animate({
             scrollTop: pos
         });
@@ -55,7 +55,8 @@
                 window.clearInterval(interval);
                 interval = undefined;
                 // scroll to images
-                _scrollToBottom('imageContainer');
+                $(`#imageContainer_${urlHandler.videoIdToLoad + 1}`).css('display', 'block');
+                _scrollToBottom('imageSection');
                 return;
             }
             nodeModule.createNode(dataToLoop[index], svg);
@@ -73,7 +74,7 @@
                     previousData = dataToLoop[ index- 1 ]; */
                     // increase the radius of main hub
                     let mainHub = dataModule.getGraphHub();
-                    debugger;
+                    
                     nodeModule.increaseRadius(mainHub, dataToLoop[index]);
                     return;
                     // else if current node's previous node is a hub which is not a main hub, then point the currentnode's out relation to main hub
@@ -81,7 +82,7 @@
                 // else it is a node which is not pointing to any hub other than main hub or not pointing to any hub
                 else if (dataToLoop[index - 1].ptype.toLowerCase().includes('hub') && dataToLoop[index].ptype.toLowerCase() !== 'hub') {
                     currentNode = dataToLoop[index];
-                    debugger;
+                    
                     previousData = dataModule.getGraphHub();
                     relationshipModule().createRelation({
                         svgelem: svg,
@@ -94,7 +95,7 @@
 
                 } else if (dataToLoop[index].ptype.toLowerCase().includes('hub') && dataToLoop[index - 1].ptype.toLowerCase() !== 'hub') {
                     previousData = dataToLoop[index - 1];
-                    debugger;
+                    
                     currentNode = dataModule.getGraphHub();
                     relationshipModule().createRelation({
                         svgelem: svg,

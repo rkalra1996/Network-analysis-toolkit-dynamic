@@ -10,19 +10,19 @@ var dataModule = (function (d3) {
             return filter.id == videIdToFetch;
         });
 
-        if (fetchedVideo.length) {
+        if (fetchedVideo.length !== undefined) {
             return fetchedVideo;
         } else {
-            alert('invalid or non existent video id provided');
-            return -1;
+            // alert('invalid or non existent video id provided');
+            return 0;
         }
     }
     var reduceSumCiGraph = function (data) {
-        debugger;
+        
         var cum_grphno;
         var cum_cdoi;
         data.forEach((element, i) => {
-            debugger;
+            
             if (i == 0) {
                 cum_grphno = parseInt(element.ci_graph);
                 cum_cdoi = parseInt(element.cdoi);
@@ -148,7 +148,7 @@ var dataModule = (function (d3) {
                         toolbarModule.updateVideDetails({
                             name: fetchedData[0].vname,
                             duration: fetchedData[0].vduration,
-                            hubs: fetchedData[0].vhubs,
+                            // hubs: fetchedData[0].vhubs,
                             heldOn: fetchedData[0].vheldOn
                         })
                         cb(originaldata)

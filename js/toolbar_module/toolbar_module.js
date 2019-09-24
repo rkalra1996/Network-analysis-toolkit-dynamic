@@ -71,10 +71,9 @@ var toolbarModule = (function(jQuery){
                 <p class="name">Duration</p>
                 <p class="value">${data.duration}</p>
             </div>
-            ${getHubTemplate(data.hubs)}
       </div>
         `;
-
+// ${getHubTemplate(data.hubs)}
         // let hubTemplate = getHubTemplate(data.hubs);
 
         // join all the templates and render it

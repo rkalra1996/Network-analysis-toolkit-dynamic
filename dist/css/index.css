@@ -453,10 +453,10 @@ input[type=range]:focus::-ms-fill-upper {
   background-color: #a8abe3;
 }
 
-#imageContainer {
+#imageContainer_1 {
   width: 100%;
-  position: absolute;
   margin-top: 10%;
+  display: none;
 }
 
 .imageGallery {
@@ -512,6 +512,68 @@ input[type=range]:focus::-ms-fill-upper {
 }
 
 .flexBlock .imageBlock.i3 img {
+  width: 100%;
+}
+
+#imageContainer_2 {
+  width: 100%;
+  margin-top: 10%;
+  display: none;
+}
+
+.imageGallery_2 {
+  width: 95%;
+  margin: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+}
+
+.heading_2 {
+  font-size: 1.4rem;
+  font-weight: bold;
+  padding: 1em 0;
+  width: 95%;
+  margin: auto;
+}
+
+.imageBlock_2 {
+  margin: 15px;
+  width: 45%;
+}
+
+.imageBlock_2.i1_2 img {
+  max-width: 100%;
+}
+
+.imageBlock_2.i2_2 img {
+  width: 98%;
+}
+
+.flexBlock_2 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: start;
+          flex-direction: start;
+}
+
+.flexBlock_2 .imageBlock_2.i3_2 {
+  width: 100%;
+}
+
+.flexBlock_2 .imageBlock_2.i3_2 img {
   width: 100%;
 }
 
