@@ -32,7 +32,7 @@ var nodeModule = (function (d3) {
         let Circle = d3.select(`[id="${hub.pid}"]`);
 
         // limit to 80
-        temp = temp > 80 ? 80 : temp;
+        temp = temp > 60 ? 60 : temp;
         Circle.data()[0].original_radius = temp;
         Circle.data()[0].ci_graphdata = currentNode.ci_graph;
 
@@ -60,11 +60,20 @@ var nodeModule = (function (d3) {
                 .transition()
                 .duration(1000 / totalFlickerValue)
                 .attr("stroke-width", 2)
-                .attr("r", selectionData.original_radius)
+                .attr("r", function(d){
+                    debugger;
+                    return +d.original_radius > 60 ? 60 : d.original_radius;
+                })
                 .transition()
                 .duration(1000 / totalFlickerValue)
                 .attr("stroke-width", 3)
-                .attr("r", parseInt(selectionData.original_radius) + 5)
+                .attr("r", function(d){
+                    if (d.ptype.toLowerCase() == 'hub') {
+                        return (d.original_radius > 60 ? 60 : +d.original_radius + 20)    
+                    } else {
+                        return (d.original_radius > 60 ? 60 : +d.original_radius + 10);
+                    }
+                    })
                 .on("end", _recursive_transitions.bind(null, selection, selectionData));
 
 
@@ -85,7 +94,9 @@ var nodeModule = (function (d3) {
             .data([nodeDetails])
             .attr("cx", nodeDetails.x)
             .attr("cy", nodeDetails.y)
-            .attr("r", 15 + (nodeDetails.cdoi / 100))
+            .attr("r", function(d){
+                return !d.cdoi || (d.cdoi/100 < 15) ? 15 : (d.cdoi >= 60 ? 60 : d.cdoi / 100)
+            })
             .attr('fill', nodeDetails.ptype.toLowerCase().includes('hub') ? colorCodes.hubColor : colorCodes.spokeColor)
             .on('mouseover', function (d) {
                 toolTipp.html(_tooltipTemplate(d))
