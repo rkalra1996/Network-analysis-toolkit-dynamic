@@ -24,7 +24,7 @@ var nodeModule = (function (d3) {
         // });
         // console.log("hub obj", HUB_COI);
         // console.log("total", temp)
-        
+
         var temp = currentNode.cdoi;
         temp = temp / 150;
 
@@ -42,38 +42,45 @@ var nodeModule = (function (d3) {
 
     var _recursive_transitions = function (selection, selectionData) {
 
-        selectionData = selection.data()[0];
-        var totalFlickerValue
-        if (selectionData.ptype.toLowerCase() == "hub") {
+        // selectionData = selection.data()[0];
+        // var totalFlickerValue
+        // if (selectionData.ptype.toLowerCase() == "hub") {
 
-            totalFlickerValue = parseFloat(selectionData.ci_graphdata);
-            console.log("hub ci graph", selectionData.ptype, selectionData.ci_graphdata)
+        //     totalFlickerValue = parseFloat(selectionData.ci_graphdata);
+        //     console.log("hub ci graph", selectionData.ptype, selectionData.ci_graphdata)
 
-        } else {
-            totalFlickerValue = parseFloat(selectionData.ci_graph);
-        }
-        totalFlickerValue = totalFlickerValue / 2
-        
+        // } else {
+        //     totalFlickerValue = parseFloat(selectionData.ci_graph);
+        // }
+        // totalFlickerValue = totalFlickerValue / 2
+
         // if the node hasn't interacted, it should not flicker
         if (selectionData.ia !== -1) {
             selection
                 .transition()
-                .duration(1000 / totalFlickerValue)
+                .duration(function (d) {
+                    // return 1000;
+                    return (1000 / parseInt(d.ci_graph)) + 50
+                })
                 .attr("stroke-width", 2)
-                .attr("r", function(d){
+                .attr("r", function (d) {
                     debugger;
                     return +d.original_radius > 60 ? 60 : d.original_radius;
                 })
                 .transition()
-                .duration(1000 / totalFlickerValue)
+                .duration(function (d) {
+                    debugger;
+                    // return 1000;
+                    return (1000 / parseInt(d.ci_graph)) + 50
+                })
                 .attr("stroke-width", 3)
-                .attr("r", function(d){
+                .attr("r", function (d) {
                     if (d.ptype.toLowerCase() == 'hub') {
-                        return (d.original_radius > 60 ? 60 : +d.original_radius + 20)    
+                        return (d.original_radius > 60 ? 60 : +d.original_radius + 20)
                     } else {
                         return (d.original_radius > 60 ? 60 : +d.original_radius + 10);
                     }
-                    })
+                })
                 .on("end", _recursive_transitions.bind(null, selection, selectionData));
 
 
@@ -82,20 +89,21 @@ var nodeModule = (function (d3) {
 
     function _startFlicker(circle, miniCircle, data) {
         // preserve the original radius
-        
-        circle.data()[0]['original_radius'] = circle.attr('r');
+
+
+
         _recursive_transitions(circle, data);
     }
 
     var _renderToGraph = function (circle, activeCircle, miniCircle, nodeDetails) {
-        
+
 
         circle
             .data([nodeDetails])
             .attr("cx", nodeDetails.x)
             .attr("cy", nodeDetails.y)
-            .attr("r", function(d){
-                return !d.cdoi || (d.cdoi/100 < 15) ? 15 : (d.cdoi >= 60 ? 60 : d.cdoi / 100)
+            .attr("r", function (d) {
+                return !d.cdoi || (d.cdoi / 100 < 15) ? 15 : (d.cdoi >= 60 ? 60 : d.cdoi / 100)
             })
             .attr('fill', nodeDetails.ptype.toLowerCase().includes('hub') ? colorCodes.hubColor : colorCodes.spokeColor)
             .on('mouseover', function (d) {
@@ -131,6 +139,7 @@ var nodeModule = (function (d3) {
             .attr('r', 5)
             .attr('fill', nodeDetails.vs ? colorCodes.videoStatusOnColor : colorCodes.videoStatusOffColor);
         // add the flicker basis its graph interaction
+        circle.data()[0]['original_radius'] = circle.attr('r');
         _startFlicker(circle, miniCircle, nodeDetails)
 
     }
@@ -182,7 +191,7 @@ var nodeModule = (function (d3) {
                     if no, create the hub as usual
          rest of the spoke creation will work as usual
             */
-
+        debugger;
         var uniqueHub = svgContainer.select(`[fill="${colorCodes.hubColor}"]`)._groups[0][0] !== undefined ? svgContainer.select(`[fill="${colorCodes.hubColor}"]`) : undefined
         // if unique hub is already present, simply show active behaviour on the unique hub else go as usual
         if (uniqueHub) {
@@ -209,7 +218,9 @@ var nodeModule = (function (d3) {
                 .attr('cy', uniqueHub.data()[0].y)
                 .attr('r', 5)
                 .attr('fill', '#00ffd0');
-
+            hubCircle.data()[0]['original_radius'] = !currentNodeData.cdoi || (currentNodeData.cdoi / 100 < 15) ? 15 : (currentNodeData.cdoi >= 60 ? 60 : currentNodeData.cdoi / 100)
+            hubCircle.data()[0]['ci_graph'] = currentNodeData.ci_graph;
+            hubCircle.data()[0]['cdoi'] = currentNodeData.cdoi;
             _startFlicker(hubCircle, hubMiniCircle, currentNodeData)
 
         } else {

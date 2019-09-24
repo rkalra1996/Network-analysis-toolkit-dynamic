@@ -41,7 +41,7 @@
         });
     }
 
-    function StartLoop(dataToLoop, intervalTimeout = 1000) {
+    function StartLoop(dataToLoop, intervalTimeout = 2000) {
         let index = -1;
         let totalIterations = dataToLoop.length;
 
@@ -75,7 +75,7 @@
                     previousData = dataToLoop[ index- 1 ]; */
                     // increase the radius of main hub
                     let mainHub = dataModule.getGraphHub();
-                    
+
                     nodeModule.increaseRadius(mainHub, dataToLoop[index]);
                     return;
                     // else if current node's previous node is a hub which is not a main hub, then point the currentnode's out relation to main hub
@@ -83,7 +83,7 @@
                 // else it is a node which is not pointing to any hub other than main hub or not pointing to any hub
                 else if (dataToLoop[index - 1].ptype.toLowerCase().includes('hub') && dataToLoop[index].ptype.toLowerCase() !== 'hub') {
                     currentNode = dataToLoop[index];
-                    
+
                     previousData = dataModule.getGraphHub();
                     relationshipModule().createRelation({
                         svgelem: svg,
@@ -96,7 +96,7 @@
 
                 } else if (dataToLoop[index].ptype.toLowerCase().includes('hub') && dataToLoop[index - 1].ptype.toLowerCase() !== 'hub') {
                     previousData = dataToLoop[index - 1];
-                    
+
                     currentNode = dataModule.getGraphHub();
                     relationshipModule().createRelation({
                         svgelem: svg,

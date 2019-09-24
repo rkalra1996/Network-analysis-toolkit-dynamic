@@ -18,18 +18,18 @@ var dataModule = (function (d3) {
         }
     }
     var reduceSumCiGraph = function (data) {
-        
+
         var cum_grphno;
         var cum_cdoi;
         data.forEach((element, i) => {
-            
+
             if (i == 0) {
                 cum_grphno = parseInt(element.ci_graph);
                 cum_cdoi = parseInt(element.cdoi);
             } else if (element.ptype.toLowerCase() == "hub") {
                 cum_grphno = cum_grphno + 1;
                 cum_cdoi = cum_cdoi + element.cdoi;
-                element.ci_graph = cum_grphno
+                element.ci_graph = cum_grphno / 2
                 element.cdoi = cum_cdoi;
             }
         });
@@ -78,16 +78,16 @@ var dataModule = (function (d3) {
     }
 
 
-    var _filterUniqueNodes = function(dataToFilter) {
+    var _filterUniqueNodes = function (dataToFilter) {
         return filterdata(dataToFilter)
     }
 
 
-    function merge(a, b, prop){
-        var reduced = a.filter(function(aitem){
-            return ! b.find(function(bitem){
+    function merge(a, b, prop) {
+        var reduced = a.filter(function (aitem) {
+            return !b.find(function (bitem) {
 
-                if(aitem[prop] === bitem[prop]){
+                if (aitem[prop] === bitem[prop]) {
 
                     aitem['x'] = bitem['x'];
                     aitem['y'] = bitem['y'];
@@ -97,7 +97,7 @@ var dataModule = (function (d3) {
             });
         });
         return a;
-      }
+    }
 
     var createAxis = function (numNodes, radius, networkdata, contwidth, contheight) {
         var centerX = contwidth / 2;
