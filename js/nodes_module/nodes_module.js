@@ -5,158 +5,168 @@ var nodeModule = (function (d3) {
     }
 
     var colorCodes = {
-        hubColor : '#1f77b4',
-        spokeColor : '#ff7f0e',
-        activeColor : '',
-        videoStatusOnColor : '#4CAF50',
-        videoStatusOffColor : 'red'
+        hubColor: '#1f77b4',
+        spokeColor: '#ff7f0e',
+        activeColor: '',
+        videoStatusOnColor: '#4CAF50',
+        videoStatusOffColor: 'red'
     }
 
-    var objectSum = function( obj ) {
+    var objectSum = function (obj) {
         var sum = 0;
-        for( var el in obj ) {
-          if( obj.hasOwnProperty( el ) ) {
-            sum += parseFloat( obj[el] );
-          }
+        for (var el in obj) {
+            if (obj.hasOwnProperty(el)) {
+                sum += parseFloat(obj[el]);
+            }
         }
         return sum;
-       }
+    }
 
 
-    var increaseRadius = function(hub, currentNode) {
+    var increaseRadius = function (hub, currentNode) {
 
-        HUB_COI[hub.pid]=hub.cdoi;
-        HUB_COI[currentNode.pid]=currentNode.cdoi;
+        HUB_COI[hub.pid] = hub.cdoi;
+        HUB_COI[currentNode.pid] = currentNode.cdoi;
         debugger;
         // objectSum()
-        
-        let temp = Object.values(HUB_COI).reduce(function(a,c){
-            return a+c;
-        });
-        temp=temp/50;
 
-        console.log("sum",temp)
+        let temp = Object.values(HUB_COI).reduce(function (a, c) {
+            return a + c;
+        });
+        console.log("hub obj", HUB_COI);
+        console.log("total", temp)
+        temp = temp / 50;
+
+        console.log("sum", temp)
         let Circle = d3.select(`[id="${hub.pid}"]`);
 
         Circle.data()[0].original_radius = temp;
+        Circle.data()[0].ci_graphdata = currentNode.ci_graph;
+
         Circle.attr('r', temp);
     }
 
 
-    var _recursive_transitions = function(selection, selectionData) {
+    var _recursive_transitions = function (selection, selectionData) {
 
         selectionData = selection.data()[0];
-        let totalFlickerValue = parseFloat(selectionData.ci_graph);
-debugger;
+        var totalFlickerValue
+        if (selectionData.ptype.toLowerCase() == "hub") {
+
+            totalFlickerValue = parseFloat(selectionData.ci_graphdata);
+            console.log("hub ci graph", selectionData.ptype, selectionData.ci_graphdata)
+
+        } else {
+            totalFlickerValue = parseFloat(selectionData.ci_graph);
+        }
+        debugger;
         // if the node hasn't interacted, it should not flicker
         if (selectionData.ia !== -1) {
-            (function(){
-                selection
+            selection
                 .transition()
                 .duration(1000 / totalFlickerValue)
                 .attr("stroke-width", 2)
-                .attr("r", selectionData.original_radius+30)
+                .attr("r", selectionData.original_radius)
                 .transition()
                 .duration(1000 / totalFlickerValue)
                 .attr("stroke-width", 3)
-                .attr("r", parseInt(selectionData.original_radius)+35)
-                .on("end", _recursive_transitions.bind(null,selection, selectionData));
-            }
-                
-            )(selection,selectionData)
-            
+                .attr("r", parseInt(selectionData.original_radius) + 5)
+                .on("end", _recursive_transitions.bind(null, selection, selectionData));
+
+
         }
     }
 
-    function _startFlicker(circle, miniCircle, data){
+    function _startFlicker(circle, miniCircle, data) {
         // preserve the original radius
         debugger;
         circle.data()[0]['original_radius'] = circle.attr('r');
-         _recursive_transitions(circle, data);
+        _recursive_transitions(circle, data);
     }
 
-    var _renderToGraph = function(circle, activeCircle, miniCircle, nodeDetails) {
+    var _renderToGraph = function (circle, activeCircle, miniCircle, nodeDetails) {
         debugger;
+
         circle
-        .data([nodeDetails])
-        .attr("cx", nodeDetails.x)
-        .attr("cy", nodeDetails.y)
-        .attr("r", 20 + (nodeDetails.cdoi / 100))
-        .attr('fill', nodeDetails.ptype.toLowerCase().includes('hub') ? colorCodes.hubColor : colorCodes.spokeColor)
-        .on('mouseover', function(d){
-            toolTipp.html(_tooltipTemplate(d))
-            console.log(d3.event);
-            d3.select('#tooltipContainer')
-                .style('position', 'absolute')
-                .style('left', d3.event.pageX - 50 + 'px')
-                .style('top', d3.event.pageY - 100 + 'px')
-                .transition()
-                .duration(500)
+            .data([nodeDetails])
+            .attr("cx", nodeDetails.x)
+            .attr("cy", nodeDetails.y)
+            .attr("r", 20 + (nodeDetails.cdoi / 100))
+            .attr('fill', nodeDetails.ptype.toLowerCase().includes('hub') ? colorCodes.hubColor : colorCodes.spokeColor)
+            .on('mouseover', function (d) {
+                toolTipp.html(_tooltipTemplate(d))
+                console.log(d3.event);
+                d3.select('#tooltipContainer')
+                    .style('position', 'absolute')
+                    .style('left', d3.event.pageX - 50 + 'px')
+                    .style('top', d3.event.pageY - 100 + 'px')
+                    .transition()
+                    .duration(500)
                     .style('display', 'block')
                     .style('z-index', 10)
-        })
-        .on('mouseout', function(d){
-            d3.select('#tooltipContainer')
-                .transition()
-                .duration(500)
+            })
+            .on('mouseout', function (d) {
+                d3.select('#tooltipContainer')
+                    .transition()
+                    .duration(500)
                     .style('display', 'none');
-        })
-        .append('circle');
+            })
+            .append('circle');
 
-    // The mini circle which store the video status
+        // The mini circle which store the video status
 
-    activeCircle.attr('cx', nodeDetails.x)
-       .attr('cy', nodeDetails.y)
-       .attr('r', 15)
-       .attr('fill', '#00ffd0');
+        activeCircle.attr('cx', nodeDetails.x)
+            .attr('cy', nodeDetails.y)
+            .attr('r', 15)
+            .attr('fill', '#00ffd0');
 
-    miniCircle
-        .attr('cx', nodeDetails.x + 18)
-        .attr('cy', nodeDetails.y - 14 -(nodeDetails.cdoi / 100))
-        .attr('r', 8)
-        .attr('fill', nodeDetails.vs ? colorCodes.videoStatusOnColor : colorCodes.videoStatusOffColor);
-    // add the flicker basis its graph interaction
-    _startFlicker(circle,miniCircle,nodeDetails)
+        miniCircle
+            .attr('cx', nodeDetails.x + 18)
+            .attr('cy', nodeDetails.y - 14 - (nodeDetails.cdoi / 100))
+            .attr('r', 8)
+            .attr('fill', nodeDetails.vs ? colorCodes.videoStatusOnColor : colorCodes.videoStatusOffColor);
+        // add the flicker basis its graph interaction
+        _startFlicker(circle, miniCircle, nodeDetails)
 
     }
 
 
-    var _handleGroupCreation = function(nodeDetails, svgContainer) {
+    var _handleGroupCreation = function (nodeDetails, svgContainer) {
 
 
-            // there is no existing hub in the graph, proceed as usual
-            // check if the node is already present and update it , else create a new group
-            var group = svgContainer.select(`[id="${nodeDetails.pid}_group"]`);
+        // there is no existing hub in the graph, proceed as usual
+        // check if the node is already present and update it , else create a new group
+        var group = svgContainer.select(`[id="${nodeDetails.pid}_group"]`);
 
-            // check if a new group is needed
-            if (group._groups[0][0] == undefined) {
-                // it is a new group, create it
-                group = svgContainer
+        // check if a new group is needed
+        if (group._groups[0][0] == undefined) {
+            // it is a new group, create it
+            group = svgContainer
                 .append('g')
                 .attr('id', nodeDetails.pid + '_group')
                 .attr('transform', function (d, i) {
-                   return 'translate(0,0)';
-               });
-            }
-        
-         //check if a new circle is needed
+                    return 'translate(0,0)';
+                });
+        }
+
+        //check if a new circle is needed
         var circle = group.select(`[id="${nodeDetails.pid}"]`)._groups[0][0] !== undefined ? group.select(`[id="${nodeDetails.pid}"]`) : group.append('circle').attr('id', nodeDetails.pid);
         // check if a minicircle is needed
         var miniCircle = group.select(`[id="${nodeDetails.pid}_mini"]`)._groups[0][0] !== undefined ? group.select(`[id="${nodeDetails.pid}_mini"]`) : group.append('circle').attr('id', nodeDetails.pid + '_mini');
         // The main circle representing the node
         var activeCircle;
-       if (svgContainer.select(`[class="activenode"]`)._groups[0][0] !== undefined) {
-           svgContainer.select(`[class="activenode"]`)._groups[0][0].remove();
-           activeCircle = group.append('circle').attr('class', 'activenode')
-       } else {
-           activeCircle = group.append('circle').attr('class', 'activenode');
-       }
+        if (svgContainer.select(`[class="activenode"]`)._groups[0][0] !== undefined) {
+            svgContainer.select(`[class="activenode"]`)._groups[0][0].remove();
+            activeCircle = group.append('circle').attr('class', 'activenode')
+        } else {
+            activeCircle = group.append('circle').attr('class', 'activenode');
+        }
 
-       _renderToGraph(circle, activeCircle, miniCircle, nodeDetails);
+        _renderToGraph(circle, activeCircle, miniCircle, nodeDetails);
     }
 
 
-    var _handleHubBehaviour = function(currentNodeData, svgContainer) {
+    var _handleHubBehaviour = function (currentNodeData, svgContainer) {
         console.log('handle hub behaviour called', currentNodeData);
 
         /* if more than one hubs are present, 
@@ -167,55 +177,52 @@ debugger;
                     if no, create the hub as usual
          rest of the spoke creation will work as usual
             */
-           debugger
-           if (currentNodeData.ptype.toLowerCase() == 'hub') {
 
-            var uniqueHub = svgContainer.select(`[fill="${colorCodes.hubColor}"]`)._groups[0][0] !== undefined ? svgContainer.select(`[fill="${colorCodes.hubColor}"]`) : undefined
-            // if unique hub is already present, simply show active behaviour on the unique hub else go as usual
-            if (uniqueHub) {
-                let hubGroup = svgContainer.select(`[id="${uniqueHub.data()[0].pid}_group"]`);
-                let hubCircle = hubGroup.select(`[id="${uniqueHub.data()[0].pid}"]`)
-                let hubMiniCircle = hubGroup.select(`[id="${uniqueHub.data()[0].pid}_mini"]`)
-                // make sure you redirect the links of new hub into the already existing hub
-                // example if hub b spoke after node 3 then originally the link was from hub b to node 3
-                // now this should be changed to a link from hub a to node 3 but the details on the left will
-                // be of the new hub b.
-    
-                // currentNodeData.ia = uniqueHub.data().pid;
-                var activeHubCircle;
-    
-                
-                if (svgContainer.select(`[class="activenode"]`)._groups[0][0] !== undefined) {
-                    svgContainer.select(`[class="activenode"]`)._groups[0][0].remove();
-                    activeHubCircle = hubGroup.append('circle').attr('class', 'activenode')
-                } else {
-                    activeHubCircle = hubGroup.append('circle').attr('class', 'activenode');
-                }
-                // _renderToGraph(hubCircle, activeHubCircle,hubMiniCircle, currentNodeData );
-                activeHubCircle.attr('cx', uniqueHub.data()[0].x)
+        var uniqueHub = svgContainer.select(`[fill="${colorCodes.hubColor}"]`)._groups[0][0] !== undefined ? svgContainer.select(`[fill="${colorCodes.hubColor}"]`) : undefined
+        // if unique hub is already present, simply show active behaviour on the unique hub else go as usual
+        if (uniqueHub) {
+            let hubGroup = svgContainer.select(`[id="${uniqueHub.data()[0].pid}_group"]`);
+            let hubCircle = hubGroup.select(`[id="${uniqueHub.data()[0].pid}"]`)
+            let hubMiniCircle = hubGroup.select(`[id="${uniqueHub.data()[0].pid}_mini"]`)
+            // make sure you redirect the links of new hub into the already existing hub
+            // example if hub b spoke after node 3 then originally the link was from hub b to node 3
+            // now this should be changed to a link from hub a to node 3 but the details on the left will
+            // be of the new hub b.
+
+            // currentNodeData.ia = uniqueHub.data().pid;
+            var activeHubCircle;
+
+
+            if (svgContainer.select(`[class="activenode"]`)._groups[0][0] !== undefined) {
+                svgContainer.select(`[class="activenode"]`)._groups[0][0].remove();
+                activeHubCircle = hubGroup.append('circle').attr('class', 'activenode')
+            } else {
+                activeHubCircle = hubGroup.append('circle').attr('class', 'activenode');
+            }
+            // _renderToGraph(hubCircle, activeHubCircle,hubMiniCircle, currentNodeData );
+            activeHubCircle.attr('cx', uniqueHub.data()[0].x)
                 .attr('cy', uniqueHub.data()[0].y)
                 .attr('r', 15)
                 .attr('fill', '#00ffd0');
-            }
-            else {
-                _handleGroupCreation(currentNodeData, svgContainer);
-            }
+
+            _startFlicker(hubCircle, hubMiniCircle, currentNodeData)
+
+        } else {
+            _handleGroupCreation(currentNodeData, svgContainer);
+        }
 
 
-           } else {
-               _handleGroupCreation(currentNodeData, svgContainer);
-           }
     }
 
     var toolTipp = d3.select('#graphContainer')
-                        .append('div')
-                        .attr('id', 'tooltipContainer')
-                        .style('display', 'none')
-                        .classed('toolTip', true)
-                        .append('div')
-                        .attr('id','tooltip');
+        .append('div')
+        .attr('id', 'tooltipContainer')
+        .style('display', 'none')
+        .classed('toolTip', true)
+        .append('div')
+        .attr('id', 'tooltip');
 
-    var _tooltipTemplate = function(data) {
+    var _tooltipTemplate = function (data) {
         return `<div class="container">
                     <div class="row">
                         <p class="rowName">Name</p>
@@ -236,18 +243,18 @@ debugger;
                 </div>`;
     }
 
-    var _createNode = function(nodeDetails, svg)  {
+    var _createNode = function (nodeDetails, svg) {
 
         var svgContainer = svg;
 
-        if(nodeDetails.ptype.toLowerCase().includes('hub')) {
+        if (nodeDetails.ptype.toLowerCase().includes('hub')) {
             console.log('handle hub creation')
             _handleHubBehaviour(nodeDetails, svgContainer);
         } else {
             console.log('handle group creation')
             _handleGroupCreation(nodeDetails, svgContainer)
+        }
     }
-}
 
     return {
         createNode: _createNode,

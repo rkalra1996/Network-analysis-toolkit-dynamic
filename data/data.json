@@ -1,9 +1,8 @@
 {
-    "data": [
-        {
+    "data": [{
             "id": 1,
             "pid": "1",
-            "ptype": "H",
+            "ptype": "hub",
             "gender": "Male",
             "pname": "Dr. Rajendra Prasad",
             "toi": "1568637979572",
@@ -33,7 +32,7 @@
         {
             "id": 3,
             "pid": "1",
-            "ptype": "H",
+            "ptype": "hub",
             "gender": "Male",
             "pname": "Dr. Rajendra Prasad",
             "toi": "1568638197981",
@@ -63,7 +62,7 @@
         {
             "id": 5,
             "pid": "1",
-            "ptype": "H",
+            "ptype": "hub",
             "gender": "Male",
             "pname": "Dr. Rajendra Prasad",
             "toi": "1568638197981",
@@ -93,7 +92,7 @@
         {
             "id": 7,
             "pid": "1",
-            "ptype": "H",
+            "ptype": "hub",
             "gender": "Male",
             "pname": "Dr. Rajendra Prasad",
             "toi": "1568638197981",
@@ -123,7 +122,7 @@
         {
             "id": 9,
             "pid": "1",
-            "ptype": "H",
+            "ptype": "hub",
             "gender": "Male",
             "pname": "Dr. Rajendra Prasad",
             "toi": "1568638197981",
@@ -153,7 +152,7 @@
         {
             "id": 11,
             "pid": "1",
-            "ptype": "H",
+            "ptype": "hub",
             "gender": "Male",
             "pname": "Dr. Rajendra Prasad",
             "toi": "1568638197981",
@@ -183,7 +182,7 @@
         {
             "id": 13,
             "pid": "1",
-            "ptype": "H",
+            "ptype": "hub",
             "gender": "Male",
             "pname": "Dr. Rajendra Prasad",
             "toi": "1568638197981",

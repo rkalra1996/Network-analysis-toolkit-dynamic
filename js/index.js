@@ -15,13 +15,13 @@
             dataModule.updateHubs(data);
 
             // set the click event on the button
-            document.getElementById('startBtn').addEventListener('click', function($event){
+            document.getElementById('startBtn').addEventListener('click', function ($event) {
                 // remove the node details initially
                 let coreEl = $('.node-details');
-                    coreEl.css('opacity', 0);
+                coreEl.css('opacity', 0);
                 // activate the svg and remove the text message display...
                 d3.select('.initialText')
-                .style('display', 'none');
+                    .style('display', 'none');
                 //start the sequence
                 d3.selectAll("svg > *").remove();
                 sliderModule.moveSlider(0);
@@ -37,11 +37,14 @@
         debugger;
         $('#imageCarousel').css('display', 'block');
 
-        let  pos = $(`#${container}`).offset().top;
+        let pos = $(`#${container}`).offset().top;
 
-        $('body, html').animate({scrollTop: pos});
-        
-        $('.imageCarousel').slick();    }
+        $('body, html').animate({
+            scrollTop: pos
+        });
+
+        $('.imageCarousel').slick();
+    }
 
     function StartLoop(dataToLoop, intervalTimeout = 1000) {
         let index = -1;
@@ -70,8 +73,7 @@
 
                 // if the current node is hub and already a hub is present, then point the current hubs out relation from main hub
                 //&& dataToLoop[index].pid !== dataModule.getGraphHubID()
-                if (dataToLoop[index-1].ptype.toLowerCase() == 'hub' && dataToLoop[index].ptype.toLowerCase().includes('hub') ) {
-                    console.log('relationship involves another hub');
+                if (dataToLoop[index - 1].ptype.toLowerCase() == 'hub' && dataToLoop[index].ptype.toLowerCase().includes('hub')) {
                     /* currentNode = dataModule.getGraphHub();
                     previousData = dataToLoop[ index- 1 ]; */
                     // increase the radius of main hub
@@ -79,10 +81,10 @@
                     debugger;
                     nodeModule.increaseRadius(mainHub, dataToLoop[index]);
                     return;
-                // else if current node's previous node is a hub which is not a main hub, then point the currentnode's out relation to main hub
-                } 
+                    // else if current node's previous node is a hub which is not a main hub, then point the currentnode's out relation to main hub
+                }
                 // else it is a node which is not pointing to any hub other than main hub or not pointing to any hub
-                else if (dataToLoop[index-1].ptype.toLowerCase().includes('hub') && dataToLoop[index].ptype.toLowerCase() !== 'hub') {
+                else if (dataToLoop[index - 1].ptype.toLowerCase().includes('hub') && dataToLoop[index].ptype.toLowerCase() !== 'hub') {
                     currentNode = dataToLoop[index];
                     debugger;
                     previousData = dataModule.getGraphHub();
@@ -94,11 +96,11 @@
                         x2: previousData.x,
                         y2: previousData.y
                     });
-    
-                } else if (dataToLoop[index].ptype.toLowerCase().includes('hub') && dataToLoop[index-1].ptype.toLowerCase() !== 'hub') {
-                    currentNode = dataToLoop[index-1];
+
+                } else if (dataToLoop[index].ptype.toLowerCase().includes('hub') && dataToLoop[index - 1].ptype.toLowerCase() !== 'hub') {
+                    previousData = dataToLoop[index - 1];
                     debugger;
-                    previousData = dataModule.getGraphHub();
+                    currentNode = dataModule.getGraphHub();
                     relationshipModule().createRelation({
                         svgelem: svg,
                         weight: dataToLoop[index].ci_no,
@@ -107,9 +109,9 @@
                         x2: previousData.x,
                         y2: previousData.y
                     });
-                } else  {
+                } else {
                     currentNode = dataToLoop[index];
-                    previousData = dataToLoop[index-1];
+                    previousData = dataToLoop[index - 1];
                     relationshipModule().createRelation({
                         svgelem: svg,
                         weight: dataToLoop[index].ci_no,
@@ -118,7 +120,7 @@
                         x2: previousData.x,
                         y2: previousData.y
                     });
-    
+
                 }
 
             }
