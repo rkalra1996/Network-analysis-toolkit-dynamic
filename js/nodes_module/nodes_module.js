@@ -1,29 +1,8 @@
 var nodeModule = (function (d3) {
 
-    var HUB_COI = {
-
-    }
-
-    var colorCodes = {
-        hubColor: '#1f77b4',
-        spokeColor: '#ff7f0e',
-        activeColor: '',
-        videoStatusOnColor: '#4CAF50',
-        videoStatusOffColor: 'red'
-    }
+    var colorCodes = colorConfig.colorCodes;
 
     var increaseRadius = function (hub, currentNode) {
-
-        // HUB_COI[hub.pid] = hub.cdoi;
-        // HUB_COI[currentNode.pid] = currentNode.cdoi;
-        // 
-        // // objectSum()
-
-        // let temp = Object.values(HUB_COI).reduce(function (a, c) {
-        //     return a + c;
-        // });
-        // console.log("hub obj", HUB_COI);
-        // console.log("total", temp)
 
         var temp = currentNode.cdoi;
         temp = temp / 150;
@@ -42,19 +21,6 @@ var nodeModule = (function (d3) {
 
     var _recursive_transitions = function (selection, selectionData) {
 
-        // selectionData = selection.data()[0];
-        // var totalFlickerValue
-        // if (selectionData.ptype.toLowerCase() == "hub") {
-
-        //     totalFlickerValue = parseFloat(selectionData.ci_graphdata);
-        //     console.log("hub ci graph", selectionData.ptype, selectionData.ci_graphdata)
-
-        // } else {
-        //     totalFlickerValue = parseFloat(selectionData.ci_graph);
-        // }
-        // totalFlickerValue = totalFlickerValue / 2
-
-        // if the node hasn't interacted, it should not flicker
         if (selectionData.ia !== -1) {
             selection
                 .transition()
@@ -64,13 +30,10 @@ var nodeModule = (function (d3) {
                 })
                 .attr("stroke-width", 2)
                 .attr("r", function (d) {
-                    debugger;
                     return +d.original_radius > 60 ? 60 : d.original_radius;
                 })
                 .transition()
                 .duration(function (d) {
-                    debugger;
-                    // return 1000;
                     return (1000 / parseInt(d.ci_graph)) + 50
                 })
                 .attr("stroke-width", 3)
@@ -89,9 +52,6 @@ var nodeModule = (function (d3) {
 
     function _startFlicker(circle, miniCircle, data) {
         // preserve the original radius
-
-
-
         _recursive_transitions(circle, data);
     }
 
@@ -103,9 +63,24 @@ var nodeModule = (function (d3) {
             .attr("cx", nodeDetails.x)
             .attr("cy", nodeDetails.y)
             .attr("r", function (d) {
+                // if the node is a subhub, it should have its own radius and center coordinates
+                // center coordinates will be same as its own position
+                
                 return !d.cdoi || (d.cdoi / 100 < 15) ? 15 : (d.cdoi >= 60 ? 60 : d.cdoi / 100)
             })
-            .attr('fill', nodeDetails.ptype.toLowerCase().includes('hub') ? colorCodes.hubColor : colorCodes.spokeColor)
+            .attr('fill', function(d){
+                if (d.ptype.toLowerCase() == 'spoke') {
+                    return colorCodes.spokeColor;
+                }
+                else if (d.ptype.toLowerCase() == 'subspoke') {
+                    // assign a random color to this new subspoke and store it in its meta data
+                    d['assigned_color'] = colorConfig.getRandomColor();
+                    return d.assigned_color;
+                }
+                else {
+                    return colorCodes.hubColor;
+                }
+            })
             .on('mouseover', function (d) {
                 toolTipp.html(_tooltipTemplate(d))
                 console.log(d3.event);
@@ -131,7 +106,7 @@ var nodeModule = (function (d3) {
         activeCircle.attr('cx', nodeDetails.x)
             .attr('cy', nodeDetails.y)
             .attr('r', 5)
-            .attr('fill', '#00ffd0');
+            .attr('fill', colorCodes.activeColor);
 
         miniCircle
             .attr('cx', nodeDetails.x + 10)
@@ -191,7 +166,6 @@ var nodeModule = (function (d3) {
                     if no, create the hub as usual
          rest of the spoke creation will work as usual
             */
-        debugger;
         var uniqueHub = svgContainer.select(`[fill="${colorCodes.hubColor}"]`)._groups[0][0] !== undefined ? svgContainer.select(`[fill="${colorCodes.hubColor}"]`) : undefined
         // if unique hub is already present, simply show active behaviour on the unique hub else go as usual
         if (uniqueHub) {
@@ -263,7 +237,7 @@ var nodeModule = (function (d3) {
 
         var svgContainer = svg;
 
-        if (nodeDetails.ptype.toLowerCase().includes('hub')) {
+        if (nodeDetails.ptype.toLowerCase() == 'hub') {
             console.log('handle hub creation')
             _handleHubBehaviour(nodeDetails, svgContainer);
         } else {

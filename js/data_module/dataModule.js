@@ -159,7 +159,7 @@ var dataModule = (function (d3) {
     var getData = function (video_id, cb) {
         console.log('video id recieved is ', video_id);
         if (d3) {
-            d3.json('./../data/multiple_videos.json', (err, data) => {
+            d3.json('./../../data/multi_colored_hubs.json', (err, data) => {
                 if (data) {
                     // check for the video id needed and its relevant data
 

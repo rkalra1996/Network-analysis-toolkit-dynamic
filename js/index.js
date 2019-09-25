@@ -56,7 +56,6 @@
                 interval = undefined;
                 // scroll to images
                 $(`#imageContainer_${+urlHandler.videoIdToLoad + 1}`).css('display', 'block');
-                debugger;
                 _scrollToBottom('imageSection');
                 return;
             }
@@ -70,9 +69,10 @@
 
                 // if the current node is hub and already a hub is present, then point the current hubs out relation from main hub
                 //&& dataToLoop[index].pid !== dataModule.getGraphHubID()
-                if (dataToLoop[index - 1].ptype.toLowerCase() == 'hub' && dataToLoop[index].ptype.toLowerCase().includes('hub')) {
-                    /* currentNode = dataModule.getGraphHub();
-                    previousData = dataToLoop[ index- 1 ]; */
+                
+                /* if (dataToLoop[index - 1].ptype.toLowerCase() == 'hub' && dataToLoop[index].ptype.toLowerCase().includes('hub')) {
+                    // currentNode = dataModule.getGraphHub();
+                    // previousData = dataToLoop[ index- 1 ];
                     // increase the radius of main hub
                     let mainHub = dataModule.getGraphHub();
 
@@ -118,7 +118,18 @@
                         y2: previousData.y
                     });
 
-                }
+                } */
+
+                currentNode = dataToLoop[index];
+                previousData = dataToLoop[index - 1];
+                relationshipModule().createRelation({
+                    svgelem: svg,
+                    weight: dataToLoop[index].ci_no,
+                    x1: currentNode.x,
+                    y1: currentNode.y,
+                    x2: previousData.x,
+                    y2: previousData.y
+                });
 
             }
         }, intervalTimeout)
