@@ -52,20 +52,42 @@ var nodeModule = (function (d3) {
 
     function _startFlicker(circle, miniCircle, data) {
         // preserve the original radius
+        // increase the mini circle position as per the circle's radius
+        
         _recursive_transitions(circle, data);
     }
 
-    var _renderToGraph = function (circle, activeCircle, miniCircle, nodeDetails) {
 
+    function _calcNewPosition(positionFor, data) {
+        if (data.ia !== -1) {
+            if (positionFor == 'x') {
+                let cdoi = data.cdoi/150;
+                cdoi = cdoi > 60 ? 60 : cdoi;
+                return data.x + cdoi + 20;
+            }
+            else if (positionFor == 'y') {
+                return data.y - 20 - (data.cdoi / 100);
+            }
+        }
+        else {
+            // for all nodes who never communicated
+            if (positionFor == 'x') {
+                return data.x + 13
+            }
+            else if (positionFor == 'y') {
+                return data.y - 13
+            }
+        }
+    }
+
+    var _renderToGraph = function (circle, activeCircle, miniCircle, nodeDetails) {
+        debugger;
 
         circle
             .data([nodeDetails])
             .attr("cx", nodeDetails.x)
             .attr("cy", nodeDetails.y)
             .attr("r", function (d) {
-                // if the node is a subhub, it should have its own radius and center coordinates
-                // center coordinates will be same as its own position
-                
                 return !d.cdoi || (d.cdoi / 100 < 15) ? 15 : (d.cdoi >= 60 ? 60 : d.cdoi / 100)
             })
             .attr('fill', function(d){
@@ -109,8 +131,12 @@ var nodeModule = (function (d3) {
             .attr('fill', colorCodes.activeColor);
 
         miniCircle
-            .attr('cx', nodeDetails.x + 10)
-            .attr('cy', nodeDetails.y - 10 - (nodeDetails.cdoi / 100))
+            .attr('cx', function(d){
+                return _calcNewPosition('x', nodeDetails);
+            })
+            .attr('cy', function(d){
+                return _calcNewPosition('y', nodeDetails);
+            })
             .attr('r', 5)
             .attr('fill', nodeDetails.vs ? colorCodes.videoStatusOnColor : colorCodes.videoStatusOffColor);
         // add the flicker basis its graph interaction
@@ -150,7 +176,6 @@ var nodeModule = (function (d3) {
         } else {
             activeCircle = group.append('circle').attr('class', 'activenode');
         }
-
         _renderToGraph(circle, activeCircle, miniCircle, nodeDetails);
     }
 
@@ -166,7 +191,7 @@ var nodeModule = (function (d3) {
                     if no, create the hub as usual
          rest of the spoke creation will work as usual
             */
-        var uniqueHub = svgContainer.select(`[fill="${colorCodes.hubColor}"]`)._groups[0][0] !== undefined ? svgContainer.select(`[fill="${colorCodes.hubColor}"]`) : undefined
+        var uniqueHub = svgContainer.select(`[id="${currentNodeData.pid}"]`)._groups[0][0] !== undefined ? svgContainer.select(`[id="${currentNodeData.pid}"]`) : undefined
         // if unique hub is already present, simply show active behaviour on the unique hub else go as usual
         if (uniqueHub) {
             let hubGroup = svgContainer.select(`[id="${uniqueHub.data()[0].pid}_group"]`);
@@ -195,6 +220,17 @@ var nodeModule = (function (d3) {
             hubCircle.data()[0]['original_radius'] = !currentNodeData.cdoi || (currentNodeData.cdoi / 100 < 15) ? 15 : (currentNodeData.cdoi >= 60 ? 60 : currentNodeData.cdoi / 100)
             hubCircle.data()[0]['ci_graph'] = currentNodeData.ci_graph;
             hubCircle.data()[0]['cdoi'] = currentNodeData.cdoi;
+
+            // increase the minicircle position for the hub
+            hubMiniCircle
+                .attr('cx', function(d){
+                    debugger;
+                    return _calcNewPosition('x', currentNodeData)
+                })
+                .attr('cy', function(d){
+                    return _calcNewPosition('y', currentNodeData)
+                })
+
             _startFlicker(hubCircle, hubMiniCircle, currentNodeData)
 
         } else {
