@@ -38,7 +38,7 @@
         let pos = $(`.${container}`).offset().top;
         $('body, html').animate({
             scrollTop: pos
-        });
+        }, 'slow');
     }
 
     function StartLoop(dataToLoop, intervalTimeout = 2000) {

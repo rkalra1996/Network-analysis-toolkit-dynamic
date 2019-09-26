@@ -165,6 +165,15 @@ navbar {
   margin-top: 20px;
 }
 
+.legendsContainer .legendDetails .body .section {
+  margin-bottom: 20px;
+  padding-bottom: 7px;
+  padding-top: 7px;
+  border-radius: 10px;
+  -webkit-box-shadow: 3px 2px 27px -10px rgba(0, 0, 0, 0.46);
+          box-shadow: 3px 2px 27px -10px rgba(0, 0, 0, 0.46);
+}
+
 .legendsContainer span.label {
   margin: -3px 5px;
 }
@@ -199,7 +208,7 @@ navbar {
   width: 20px;
   border-radius: 50%;
   height: 20px;
-  margin-left: -2px;
+  margin-left: 5px;
 }
 
 .legendsContainer span.label.vOff {
@@ -245,6 +254,71 @@ navbar {
   position: absolute;
   left: 40%;
   top: 45%;
+}
+
+.tooltip {
+  position: relative;
+  text-align: left;
+}
+
+.tooltip .left {
+  min-width: 170px;
+  top: 50%;
+  right: 100%;
+  margin-right: 20px;
+  -webkit-transform: translate(0, -50%);
+          transform: translate(0, -50%);
+  padding: 10px 20px;
+  color: #FFFFFF;
+  background-color: #888888;
+  font-weight: normal;
+  font-size: 13px;
+  border-radius: 8px;
+  position: absolute;
+  z-index: 99999999;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border: 1px solid #666666;
+  -webkit-box-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: opacity 0.8s;
+  transition: opacity 0.8s;
+}
+
+.tooltip2 .left {
+  min-width: 100px;
+}
+
+.section:hover .left {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tooltip .left i {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  margin-top: -12px;
+  width: 12px;
+  height: 24px;
+  overflow: hidden;
+}
+
+.tooltip .left i::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  left: 0;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%) rotate(-45deg);
+          transform: translate(-50%, -50%) rotate(-45deg);
+  background-color: #888888;
+  border: 1px solid #666666;
+  -webkit-box-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
 }
 
 svg {

@@ -60,6 +60,7 @@ var nodeModule = (function (d3) {
 
     function _calcNewPosition(positionFor, data) {
         if (data.ia !== -1) {
+            debugger;
             if (positionFor == 'x') {
                 let cdoi = data.cdoi/150;
                 cdoi = cdoi > 60 ? 60 : cdoi;
@@ -70,9 +71,10 @@ var nodeModule = (function (d3) {
             }
         }
         else {
+            debugger;
             // for all nodes who never communicated
             if (positionFor == 'x') {
-                return data.x + 13
+                return data.x + 9
             }
             else if (positionFor == 'y') {
                 return data.y - 13
@@ -81,7 +83,6 @@ var nodeModule = (function (d3) {
     }
 
     var _renderToGraph = function (circle, activeCircle, miniCircle, nodeDetails) {
-        debugger;
 
         circle
             .data([nodeDetails])
@@ -224,7 +225,6 @@ var nodeModule = (function (d3) {
             // increase the minicircle position for the hub
             hubMiniCircle
                 .attr('cx', function(d){
-                    debugger;
                     return _calcNewPosition('x', currentNodeData)
                 })
                 .attr('cy', function(d){
