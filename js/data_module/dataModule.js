@@ -66,7 +66,7 @@ var dataModule = (function (d3) {
         // update the participants ia number pointing to any hub to now point to first hub id
 
         graphHub = graphData.find(function (node) {
-            return node.ptype.toLowerCase().includes('hub')
+            return node.ptype.toLowerCase() == 'hub'
         });
         if (graphHub) {
             console.log(graphHub);
@@ -99,6 +99,8 @@ var dataModule = (function (d3) {
         return a;
     }
 
+
+
     var createAxis = function (numNodes, radius, networkdata, contwidth, contheight) {
         var centerX = contwidth / 2;
         var centerY = contheight / 2;
@@ -108,7 +110,7 @@ var dataModule = (function (d3) {
             x,
             y,
             i;
-        var flags = [];
+        var flags = {};
 
         // set uniform distributed angle
         // let uniqueNodes = filterdata(networkdata);
@@ -129,17 +131,30 @@ var dataModule = (function (d3) {
                 continue;
             }
             if (i == 0) {
+                // assuming that the first node is ALWAYS 'hub'
                 flags[uniqueNodes[i]["pid"]] = {
                     "status": true,
                     "x": centerX - 20,
                     "y": centerY - 20
                 }
+                flags[uniqueNodes[i]["ptype"].toLowerCase()] = {
+                    "x": centerX - 20,
+                    "y": centerY - 20
+                }
+                debugger;
                 uniqueNodes[i]["x"] = centerX - 20;
                 uniqueNodes[i]["y"] = centerY - 20
             } else {
-
-                x = Math.round(width / 2 + radius * Math.cos(angle) - 20);
-                y = Math.round(height / 2 + radius * Math.sin(angle) - 20);
+                // no new coordinates to another node of type 'hub' is allowed to sit in graph
+                if (uniqueNodes[i].ptype.toLowerCase() == 'hub' && !!flags[uniqueNodes[i]["ptype"].toLowerCase()]) {
+                    // set coordinates of original hub
+                    x = flags[uniqueNodes[i]["ptype"].toLowerCase()].x
+                    y = flags[uniqueNodes[i]["ptype"].toLowerCase()].y
+                }else{
+                    x = Math.round(width / 2 + radius * Math.cos(angle) - 20);
+                    y = Math.round(height / 2 + radius * Math.sin(angle) - 20);
+                }
+               
                 // x = (radius * Math.cos(angle)) + (width / 2); // Calculate the x position of the element.
                 // y = (radius * Math.sin(angle)) + (width / 2); // Calculate the y position of the element.
                 flags[uniqueNodes[i].pid] = {
@@ -159,7 +174,7 @@ var dataModule = (function (d3) {
     var getData = function (video_id, cb) {
         console.log('video id recieved is ', video_id);
         if (d3) {
-            d3.json('./../../data/multi_colored_hubs.json', (err, data) => {
+            d3.json('./../../data/multiple_videos.json', (err, data) => {
                 if (data) {
                     // check for the video id needed and its relevant data
 

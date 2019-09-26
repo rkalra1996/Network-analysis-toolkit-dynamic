@@ -30,7 +30,7 @@ var nodeModule = (function (d3) {
                 })
                 .attr("stroke-width", 2)
                 .attr("r", function (d) {
-                    return +d.original_radius > 60 ? 60 : d.original_radius;
+                    return +d.original_radius > 40 ? 40 : d.original_radius;
                 })
                 .transition()
                 .duration(function (d) {
@@ -39,9 +39,9 @@ var nodeModule = (function (d3) {
                 .attr("stroke-width", 3)
                 .attr("r", function (d) {
                     if (d.ptype.toLowerCase() == 'hub') {
-                        return (d.original_radius > 60 ? 60 : +d.original_radius + 20)
+                        return (d.original_radius > 40 ? 40+20 : +d.original_radius + 20)
                     } else {
-                        return (d.original_radius > 60 ? 60 : +d.original_radius + 10);
+                        return (d.original_radius > 40 ? 40+10 : +d.original_radius + 10);
                     }
                 })
                 .on("end", _recursive_transitions.bind(null, selection, selectionData));
@@ -60,9 +60,8 @@ var nodeModule = (function (d3) {
 
     function _calcNewPosition(positionFor, data) {
         if (data.ia !== -1) {
-            debugger;
             if (positionFor == 'x') {
-                let cdoi = data.cdoi/150;
+                let cdoi = +data.cdoi/150;
                 cdoi = cdoi > 60 ? 60 : cdoi;
                 return data.x + cdoi + 20;
             }
@@ -88,6 +87,7 @@ var nodeModule = (function (d3) {
             .data([nodeDetails])
             .attr("cx", nodeDetails.x)
             .attr("cy", nodeDetails.y)
+            .attr('class', nodeDetails.ptype.toLowerCase())
             .attr("r", function (d) {
                 return !d.cdoi || (d.cdoi / 100 < 15) ? 15 : (d.cdoi >= 60 ? 60 : d.cdoi / 100)
             })
@@ -133,10 +133,10 @@ var nodeModule = (function (d3) {
 
         miniCircle
             .attr('cx', function(d){
-                return _calcNewPosition('x', nodeDetails);
+                return nodeDetails.x+20
             })
             .attr('cy', function(d){
-                return _calcNewPosition('y', nodeDetails);
+                return nodeDetails.y-14;
             })
             .attr('r', 5)
             .attr('fill', nodeDetails.vs ? colorCodes.videoStatusOnColor : colorCodes.videoStatusOffColor);
@@ -192,7 +192,7 @@ var nodeModule = (function (d3) {
                     if no, create the hub as usual
          rest of the spoke creation will work as usual
             */
-        var uniqueHub = svgContainer.select(`[id="${currentNodeData.pid}"]`)._groups[0][0] !== undefined ? svgContainer.select(`[id="${currentNodeData.pid}"]`) : undefined
+        var uniqueHub = svgContainer.select(`.hub`)._groups[0][0] !== undefined ? svgContainer.select(`.hub`) : undefined
         // if unique hub is already present, simply show active behaviour on the unique hub else go as usual
         if (uniqueHub) {
             let hubGroup = svgContainer.select(`[id="${uniqueHub.data()[0].pid}_group"]`);
@@ -225,10 +225,10 @@ var nodeModule = (function (d3) {
             // increase the minicircle position for the hub
             hubMiniCircle
                 .attr('cx', function(d){
-                    return _calcNewPosition('x', currentNodeData)
+                    return currentNodeData.x+20;
                 })
                 .attr('cy', function(d){
-                    return _calcNewPosition('y', currentNodeData)
+                    return currentNodeData.y-14;
                 })
 
             _startFlicker(hubCircle, hubMiniCircle, currentNodeData)

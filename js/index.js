@@ -70,18 +70,18 @@
                 // if the current node is hub and already a hub is present, then point the current hubs out relation from main hub
                 //&& dataToLoop[index].pid !== dataModule.getGraphHubID()
                 
-                /* if (dataToLoop[index - 1].ptype.toLowerCase() == 'hub' && dataToLoop[index].ptype.toLowerCase().includes('hub')) {
+                if (dataToLoop[index - 1].ptype.toLowerCase() == 'hub' && dataToLoop[index].ptype.toLowerCase() == 'hub') {
                     // currentNode = dataModule.getGraphHub();
                     // previousData = dataToLoop[ index- 1 ];
                     // increase the radius of main hub
                     let mainHub = dataModule.getGraphHub();
 
-                    nodeModule.increaseRadius(mainHub, dataToLoop[index]);
+                    // nodeModule.increaseRadius(mainHub, dataToLoop[index]);
                     return;
                     // else if current node's previous node is a hub which is not a main hub, then point the currentnode's out relation to main hub
                 }
                 // else it is a node which is not pointing to any hub other than main hub or not pointing to any hub
-                else if (dataToLoop[index - 1].ptype.toLowerCase().includes('hub') && dataToLoop[index].ptype.toLowerCase() !== 'hub') {
+                else if (dataToLoop[index - 1].ptype.toLowerCase() == 'hub' && dataToLoop[index].ptype.toLowerCase() !== 'hub') {
                     currentNode = dataToLoop[index];
 
                     previousData = dataModule.getGraphHub();
@@ -94,7 +94,7 @@
                         y2: previousData.y
                     });
 
-                } else if (dataToLoop[index].ptype.toLowerCase().includes('hub') && dataToLoop[index - 1].ptype.toLowerCase() !== 'hub') {
+                } else if (dataToLoop[index].ptype.toLowerCase() == 'hub' && dataToLoop[index - 1].ptype.toLowerCase() !== 'hub') {
                     previousData = dataToLoop[index - 1];
 
                     currentNode = dataModule.getGraphHub();
@@ -118,7 +118,7 @@
                         y2: previousData.y
                     });
 
-                } */
+                }
 
                 currentNode = dataToLoop[index];
                 previousData = dataToLoop[index - 1];
