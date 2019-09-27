@@ -28,7 +28,7 @@ var dataModule = (function (d3) {
                 cum_cdoi = parseInt(element.cdoi);
             } else if (element.ptype.toLowerCase() == "hub") {
                 cum_grphno = cum_grphno + 1;
-                cum_cdoi = cum_cdoi + element.cdoi;
+                cum_cdoi = cum_cdoi + parseInt(element.cdoi);
                 element.ci_graph = cum_grphno / 2
                 element.cdoi = cum_cdoi;
             }

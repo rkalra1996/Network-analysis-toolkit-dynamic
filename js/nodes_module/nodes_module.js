@@ -39,7 +39,7 @@ var nodeModule = (function (d3) {
                 .attr("stroke-width", 3)
                 .attr("r", function (d) {
                     if (d.ptype.toLowerCase() == 'hub') {
-                        return (d.original_radius > 40 ? 40+20 : +d.original_radius + 20)
+                        return (d.original_radius > 40 ? 40+10 : +d.original_radius + 10)
                     } else {
                         return (d.original_radius > 40 ? 40+10 : +d.original_radius + 10);
                     }
