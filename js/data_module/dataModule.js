@@ -184,7 +184,7 @@ var dataModule = (function (d3) {
                         var originaldata = fetchedData[0].data; //17
                         originaldata = reduceSumCiGraph(originaldata)
                         console.log("whole data: ", originaldata)
-                        // var dataForAxis = filterdata(originaldata);//
+                        // var dataForAxis = filterdata(originaldata);
                         originaldata = createAxis(originaldata.length, ($("#graphContainer").height() / 2.5), originaldata, ($("#graphContainer").width()), ($("#graphContainer").height()))
                         console.log('data fetched');
                         // set the video details

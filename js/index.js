@@ -41,7 +41,7 @@
         }, 'slow');
     }
 
-    function StartLoop(dataToLoop, intervalTimeout = 2000) {
+    function StartLoop(dataToLoop, intervalTimeout = 500) {
         let index = -1;
         let totalIterations = dataToLoop.length;
 
