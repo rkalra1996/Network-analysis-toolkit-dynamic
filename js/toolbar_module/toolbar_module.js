@@ -134,7 +134,7 @@ var toolbarModule = (function(jQuery){
 
     // this function is used to set video details without dropdown
     var _updateVideoDetails = function(dataToUse) {
-        if (!window.location.pathname.split('.')[0].includes('index1')) {
+        if (!urlHandler.getPathName().split('.')[0].includes('index1')) {
             _updateVideoDetails2(dataToUse);
         } else {
             // on index1.html, old videodetails is available

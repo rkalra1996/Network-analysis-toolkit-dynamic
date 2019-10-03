@@ -8,8 +8,13 @@ var urlHandler = (function(){
 
       videoIdToLoad = getQueryStringValue('id') ? getQueryStringValue('id') : 0;
 
+      function getPathName() {
+          return window.location.pathname
+      }
+
       return {
           videoIdToLoad,
-          getQueryStringValue
+          getQueryStringValue,
+          getPathName
       }
 })()
