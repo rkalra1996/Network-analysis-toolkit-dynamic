@@ -50,6 +50,37 @@
     }
 }
 
+.video-details2 {
+    float: right;
+    z-index: 100;
+    width: 250px;
+    margin-top: 20px;
+    margin-right: 20px;
+    .container {
+        .title {
+            text-align: center;
+            margin: 0;
+            padding: 10px 5px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .body {
+            padding: 5px 10px;
+            .row {
+                display: flex;
+                margin-bottom: 7px;
+                .name, .value {
+                    flex: 1;
+                }
+                .name {
+                    max-width: 100px;
+                }
+            }
+        }
+        @include general-box-shadow;
+    }
+}
+
 .video-details {
     float: right;
     z-index: 100;

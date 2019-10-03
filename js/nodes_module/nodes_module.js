@@ -70,7 +70,6 @@ var nodeModule = (function (d3) {
             }
         }
         else {
-            debugger;
             // for all nodes who never communicated
             if (positionFor == 'x') {
                 return data.x + 9

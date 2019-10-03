@@ -57,7 +57,6 @@ var toolbarModule = (function(jQuery){
 
     function _renderVideoDetailsTemplate(elementToUse, data) {
         console.log('video details to render are ', data);
-
         let el = elementToUse;
 
         let nameTemplate = `<p class="title">${data.name}</p>`;
@@ -97,13 +96,7 @@ var toolbarModule = (function(jQuery){
 
         let el = jQuery('div.node-details > div.container > div.body');
         if (dataToUse === -1) {
-        // sequence completed 
-            // el.empty();
-            // el.html('<p style="margin: 0; text-align: center; padding-bottom: 5px;">Analysis Complete !</p>');
-
-            /* setTimeout(function(){
-                coreEl.css('opacity', 0)
-            }, 2000); */
+        // sequence completed
         } else {
             let name = dataToUse.pname || 'NA';
             let type = dataToUse.ptype || 'NA';
@@ -113,6 +106,30 @@ var toolbarModule = (function(jQuery){
         _renderNodeDetailsTemplate(el,{name, type, gender, tone});
         }
 
+    }
+
+    function _bodyTemplate2(data) {
+        return `
+        <div class="body">
+            <div class="row">
+                <p class="name">Held On</p>
+                <p class="value">${data.heldOn}</p>
+            </div>
+            <div class="row">
+                <p class="name">Duration</p>
+                <p class="value">${data.duration}</p>
+            </div>
+      </div>
+        `;
+    };
+
+    function _updateVideoDetails2(currentvideoData) {
+        let coreEl = jQuery('div.video-details2 > div.container')
+        let el = jQuery('div.video-details2 > div.container > div.dropdown');
+        // set the dropdown details
+        dropdownModule.populateList(dataModule.getVideoInfo(), selectedEl = el, selectedID = currentvideoData.id);
+        // set remaining video details
+        coreEl.append(_bodyTemplate2({heldOn: currentvideoData.heldOn, duration: currentvideoData.duration}));
     }
 
     var _updateVideoDetails = function(dataToUse) {
@@ -131,6 +148,6 @@ var toolbarModule = (function(jQuery){
     
     return {
         updateNodeDetails : _updateNodeDetails,
-        updateVideDetails: _updateVideoDetails
+        updateVideDetails: _updateVideoDetails2
     }
 })($)

@@ -1,5 +1,14 @@
 var dataModule = (function (d3) {
 
+    var videoInfo;
+
+    function _getVideoInfoInDB() {
+        return videoInfo;
+    }
+    function _storeVideoInfo(dataToStore) {
+        videoInfo = dataToStore;
+    }
+
 
     function _getDataFromId(videIdToFetch, dataToUse) {
         // the function will return the data object or -1
@@ -141,7 +150,6 @@ var dataModule = (function (d3) {
                     "x": centerX - 20,
                     "y": centerY - 20
                 }
-                debugger;
                 uniqueNodes[i]["x"] = centerX - 20;
                 uniqueNodes[i]["y"] = centerY - 20
             } else {
@@ -171,11 +179,27 @@ var dataModule = (function (d3) {
         return mergedData;
     }
 
+    function _fetchVideoDetails(videoData) {
+        if (Array.isArray(videoData) && videoData.length) {
+            let videoObj = [];
+            videoData.forEach(function(video){
+                let id = video.id;
+                let name = video.vname;
+
+                videoObj.push({id,name});
+            });
+            _storeVideoInfo(videoObj);
+        }
+        return [];
+    }
+
     var getData = function (video_id, cb) {
         console.log('video id recieved is ', video_id);
         if (d3) {
             d3.json('./../../data/multiple_videos.json', (err, data) => {
                 if (data) {
+                    // store the video details in the variable to be used by dropdown
+                    _fetchVideoDetails(data.videos)
                     // check for the video id needed and its relevant data
 
                     let fetchedData = _getDataFromId(video_id, data);
@@ -192,7 +216,8 @@ var dataModule = (function (d3) {
                             name: fetchedData[0].vname,
                             duration: fetchedData[0].vduration,
                             // hubs: fetchedData[0].vhubs,
-                            heldOn: fetchedData[0].vheldOn
+                            heldOn: fetchedData[0].vheldOn,
+                            id: fetchedData[0].id
                         })
                         cb(originaldata)
                     } else {
@@ -217,6 +242,7 @@ var dataModule = (function (d3) {
         getGraphData: getData,
         updateHubs: _updateHubsForGraph,
         getGraphHubID: _getGraphHubID,
-        getGraphHub: _getGraphHub
+        getGraphHub: _getGraphHub,
+        getVideoInfo: _getVideoInfoInDB
     }
 }(d3));

@@ -98,7 +98,6 @@
                     "x": centerX - 20,
                     "y": centerY - 20
                 }
-                debugger;
                 uniqueNodes[i]["x"] = centerX - 20;
                 uniqueNodes[i]["y"] = centerY - 20
             } else {
