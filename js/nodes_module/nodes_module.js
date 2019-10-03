@@ -152,13 +152,21 @@ var nodeModule = (function (d3) {
     }
 
 
+    function _setActiveCircle(svg, groupToUse) {
+        if (svg.select(`[class="activenode"]`)._groups[0][0] !== undefined) {
+            svg.select(`[class="activenode"]`)._groups[0][0].remove();   
+        }
+        return groupToUse.append('circle').attr('class', 'activenode')
+    }
+
+
     var _handleGroupCreation = function (nodeDetails, svgContainer) {
 
 
         // there is no existing hub in the graph, proceed as usual
         // check if the node is already present and update it , else create a new group
         var group = svgContainer.select(`[id="${nodeDetails.pid}_group"]`);
-
+        var activeCircle;
         // check if a new group is needed
         if (group._groups[0][0] == undefined) {
             // it is a new group, create it
@@ -174,14 +182,10 @@ var nodeModule = (function (d3) {
         var circle = group.select(`[id="${nodeDetails.pid}"]`)._groups[0][0] !== undefined ? group.select(`[id="${nodeDetails.pid}"]`) : group.append('circle').attr('id', nodeDetails.pid);
         // check if a minicircle is needed
         var miniCircle = group.select(`[id="${nodeDetails.pid}_mini"]`)._groups[0][0] !== undefined ? group.select(`[id="${nodeDetails.pid}_mini"]`) : group.append('circle').attr('id', nodeDetails.pid + '_mini');
-        // The main circle representing the node
-        var activeCircle;
-        if (svgContainer.select(`[class="activenode"]`)._groups[0][0] !== undefined) {
-            svgContainer.select(`[class="activenode"]`)._groups[0][0].remove();
-            activeCircle = group.append('circle').attr('class', 'activenode')
-        } else {
-            activeCircle = group.append('circle').attr('class', 'activenode');
-        }
+        
+        // Set the active color on the current group
+        activeCircle = _setActiveCircle(svgContainer, group)
+
         _renderToGraph(circle, activeCircle, miniCircle, nodeDetails);
     }
 
@@ -200,6 +204,8 @@ var nodeModule = (function (d3) {
         var uniqueHub = svgContainer.select(`.hub`)._groups[0][0] !== undefined ? svgContainer.select(`.hub`) : undefined
         // if unique hub is already present, simply show active behaviour on the unique hub else go as usual
         if (uniqueHub) {
+            var activeHubCircle;
+
             let hubGroup = svgContainer.select(`[id="${uniqueHub.data()[0].pid}_group"]`);
             let hubCircle = hubGroup.select(`[id="${uniqueHub.data()[0].pid}"]`)
             let hubMiniCircle = hubGroup.select(`[id="${uniqueHub.data()[0].pid}_mini"]`)
@@ -208,17 +214,9 @@ var nodeModule = (function (d3) {
             // now this should be changed to a link from hub a to node 3 but the details on the left will
             // be of the new hub b.
 
-            // currentNodeData.ia = uniqueHub.data().pid;
-            var activeHubCircle;
+            // Set the active color on the current group
+            activeHubCircle = _setActiveCircle(svgContainer, hubGroup);
 
-
-            if (svgContainer.select(`[class="activenode"]`)._groups[0][0] !== undefined) {
-                svgContainer.select(`[class="activenode"]`)._groups[0][0].remove();
-                activeHubCircle = hubGroup.append('circle').attr('class', 'activenode')
-            } else {
-                activeHubCircle = hubGroup.append('circle').attr('class', 'activenode');
-            }
-            // _renderToGraph(hubCircle, activeHubCircle,hubMiniCircle, currentNodeData );
             activeHubCircle.attr('cx', uniqueHub.data()[0].x)
                 .attr('cy', uniqueHub.data()[0].y)
                 .attr('r', varConfig.ACTIVE_CIRCLE.RADIUS)

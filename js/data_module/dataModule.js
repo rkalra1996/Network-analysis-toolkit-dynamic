@@ -205,9 +205,9 @@ var dataModule = (function (d3) {
                         // set appropriate variables
                         let gcHeight = graphContainerHeight;
                         let gcWidth = graphContainerWidth;
-                        let centerPoint = (gcHeight/2.5);
+                        let centerPointH = (gcHeight/2.5);
                         // var dataForAxis = filterdata(originaldata);
-                        originaldata = createAxis(originaldata.length, centerPoint, originaldata, gcWidth, gcHeight)
+                        originaldata = createAxis(originaldata.length, centerPointH, originaldata, gcWidth, gcHeight)
                         console.log('data fetched');
                         // set the video details
                         let dataForCurrentVideo = {
