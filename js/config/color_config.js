@@ -13,8 +13,9 @@ var colorConfig = (function(){
         spokeColor: '#ff7f0e',
         activeColor: '#00ffd0',
         videoStatusOnColor: '#4CAF50',
-        videoStatusOffColor: 'red'
-
+        videoStatusOffColor: 'red',
+        arrowColor: '#797676',
+        lineColor: '#797676'
     };
 
 

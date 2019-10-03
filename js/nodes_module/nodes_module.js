@@ -1,9 +1,11 @@
 var nodeModule = (function (d3) {
-
+    // retrieve colors for nodes
     var colorCodes = colorConfig.colorCodes;
+    // retrieve constants used in the app
+    var varConfig = variablesConfig;
 
     var increaseRadius = function (hub, currentNode) {
-
+        // no longer used now
         var temp = currentNode.cdoi;
         temp = temp / 150;
 
@@ -26,23 +28,25 @@ var nodeModule = (function (d3) {
                 .transition()
                 .duration(function (d) {
                     // return 1000;
-                    return (1000 / parseInt(d.ci_graph)) + 50
+                    return (varConfig.TRANSITION.DURATION / parseInt(d.ci_graph)) + varConfig.TRANSITION.DURATION_OFFSET
                 })
                 .attr("stroke-width", 2)
                 .attr("r", function (d) {
-                    return +d.original_radius > 40 ? 40 : d.original_radius;
+                    return +d.original_radius > varConfig.TRANSITION.RADIUS.MAX ? varConfig.TRANSITION.RADIUS.MAX : d.original_radius;
                 })
                 .transition()
                 .duration(function (d) {
-                    return (1000 / parseInt(d.ci_graph)) + 50
+                    return (varConfig.TRANSITION.DURATION / parseInt(d.ci_graph)) + varConfig.TRANSITION.DURATION_OFFSET
                 })
                 .attr("stroke-width", 3)
                 .attr("r", function (d) {
-                    if (d.ptype.toLowerCase() == 'hub') {
-                        return (d.original_radius > 40 ? 40+10 : +d.original_radius + 10)
+                    return (d.original_radius > varConfig.TRANSITION.RADIUS.MAX ? varConfig.TRANSITION.RADIUS.MAX+varConfig.TRANSITION.RADIUS.OFFSET : +d.original_radius + varConfig.TRANSITION.RADIUS.OFFSET);
+
+                    /* if (d.ptype.toLowerCase() == 'hub') {
+                        return (d.original_radius > varConfig.TRANSITION.RADIUS.MAX ? varConfig.TRANSITION.RADIUS.MAX+varConfig.TRANSITION.RADIUS.OFFSET : +d.original_radius + varConfig.TRANSITION.RADIUS.OFFSET)
                     } else {
-                        return (d.original_radius > 40 ? 40+10 : +d.original_radius + 10);
-                    }
+                        return (d.original_radius > varConfig.TRANSITION.RADIUS.MAX ? varConfig.TRANSITION.RADIUS.MAX+varConfig.TRANSITION.RADIUS.OFFSET : +d.original_radius + varConfig.TRANSITION.RADIUS.OFFSET);
+                    } */
                 })
                 .on("end", _recursive_transitions.bind(null, selection, selectionData));
 
@@ -88,13 +92,13 @@ var nodeModule = (function (d3) {
             .attr("cy", nodeDetails.y)
             .attr('class', nodeDetails.ptype.toLowerCase())
             .attr("r", function (d) {
-                return !d.cdoi || (d.cdoi / 100 < 15) ? 15 : (d.cdoi >= 60 ? 60 : d.cdoi / 100)
+                return !d.cdoi || (d.cdoi / 100 < varConfig.NODE_SIZE.MIN) ? varConfig.NODE_SIZE.MIN : (d.cdoi >= varConfig.NODE_SIZE.MAX ? varConfig.NODE_SIZE.MAX : d.cdoi / 100)
             })
             .attr('fill', function(d){
-                if (d.ptype.toLowerCase() == 'spoke') {
+                if (d.ptype.toLowerCase() == varConfig.SPOKE) {
                     return colorCodes.spokeColor;
                 }
-                else if (d.ptype.toLowerCase() == 'subspoke') {
+                else if (d.ptype.toLowerCase() == varConfig.SUBSPOKE) {
                     // assign a random color to this new subspoke and store it in its meta data
                     d['assigned_color'] = colorConfig.getRandomColor();
                     return d.assigned_color;
@@ -108,17 +112,17 @@ var nodeModule = (function (d3) {
                 console.log(d3.event);
                 d3.select('#tooltipContainer')
                     .style('position', 'absolute')
-                    .style('left', d3.event.pageX - 50 + 'px')
-                    .style('top', d3.event.pageY - 100 + 'px')
+                    .style('left', d3.event.pageX - varConfig.TOOLTIP.X_OFFSET + 'px')
+                    .style('top', d3.event.pageY - varConfig.TOOLTIP.Y_OFFSET + 'px')
                     .transition()
-                    .duration(500)
+                    .duration(varConfig.TOOLTIP.DURATION)
                     .style('display', 'block')
                     .style('z-index', 10)
             })
             .on('mouseout', function (d) {
                 d3.select('#tooltipContainer')
                     .transition()
-                    .duration(500)
+                    .duration(varConfig.TOOLTIP.DURATION)
                     .style('display', 'none');
             })
             .append('circle');
@@ -127,20 +131,22 @@ var nodeModule = (function (d3) {
 
         activeCircle.attr('cx', nodeDetails.x)
             .attr('cy', nodeDetails.y)
-            .attr('r', 5)
+            .attr('r', varConfig.ACTIVE_CIRCLE.RADIUS)
             .attr('fill', colorCodes.activeColor);
 
         miniCircle
             .attr('cx', function(d){
-                return nodeDetails.x+20
+                return nodeDetails.x + varConfig.MINI_CIRCLE.X_OFFSET
             })
             .attr('cy', function(d){
-                return nodeDetails.y-14;
+                return nodeDetails.y - varConfig.MINI_CIRCLE.Y_OFFSET;
             })
-            .attr('r', 5)
+            .attr('r', varConfig.MINI_CIRCLE.RADIUS)
             .attr('fill', nodeDetails.vs ? colorCodes.videoStatusOnColor : colorCodes.videoStatusOffColor);
-        // add the flicker basis its graph interaction
-        circle.data()[0]['original_radius'] = circle.attr('r');
+        
+            // add the flicker basis its graph interaction
+        circle
+            .data()[0]['original_radius'] = circle.attr('r');
         _startFlicker(circle, miniCircle, nodeDetails)
 
     }
@@ -215,19 +221,19 @@ var nodeModule = (function (d3) {
             // _renderToGraph(hubCircle, activeHubCircle,hubMiniCircle, currentNodeData );
             activeHubCircle.attr('cx', uniqueHub.data()[0].x)
                 .attr('cy', uniqueHub.data()[0].y)
-                .attr('r', 5)
-                .attr('fill', '#00ffd0');
-            hubCircle.data()[0]['original_radius'] = !currentNodeData.cdoi || (currentNodeData.cdoi / 100 < 15) ? 15 : (currentNodeData.cdoi >= 60 ? 60 : currentNodeData.cdoi / 100)
+                .attr('r', varConfig.MINI_CIRCLE.RADIUS)
+                .attr('fill', colorCodes.activeColor);
+            hubCircle.data()[0]['original_radius'] = !currentNodeData.cdoi || (currentNodeData.cdoi / 100 < varConfig.NODE_SIZE.MIN) ? varConfig.NODE_SIZE.MIN : (currentNodeData.cdoi >= varConfig.NODE_SIZE.MAX ? varConfig.NODE_SIZE.MAX : currentNodeData.cdoi / 100)
             hubCircle.data()[0]['ci_graph'] = currentNodeData.ci_graph;
             hubCircle.data()[0]['cdoi'] = currentNodeData.cdoi;
 
             // increase the minicircle position for the hub
             hubMiniCircle
                 .attr('cx', function(d){
-                    return currentNodeData.x+20;
+                    return currentNodeData.x+varConfig.MINI_CIRCLE.X_OFFSET;
                 })
                 .attr('cy', function(d){
-                    return currentNodeData.y-14;
+                    return currentNodeData.y-varConfig.MINI_CIRCLE.Y_OFFSET;
                 })
 
             _startFlicker(hubCircle, hubMiniCircle, currentNodeData)
@@ -272,7 +278,7 @@ var nodeModule = (function (d3) {
 
         var svgContainer = svg;
 
-        if (nodeDetails.ptype.toLowerCase() == 'hub') {
+        if (nodeDetails.ptype.toLowerCase() == varConfig.HUB) {
             console.log('handle hub creation')
             _handleHubBehaviour(nodeDetails, svgContainer);
         } else {

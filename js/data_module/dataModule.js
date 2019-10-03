@@ -1,6 +1,9 @@
 var dataModule = (function (d3) {
 
     var videoInfo;
+    var graphHubID;
+    var graphHub;
+    var varConfig = variablesConfig;
 
     function _getVideoInfoInDB() {
         return videoInfo;
@@ -19,11 +22,11 @@ var dataModule = (function (d3) {
             return filter.id == videIdToFetch;
         });
 
-        if (fetchedVideo.length !== undefined) {
+        if (fetchedVideo.length !== 0) {
             return fetchedVideo;
         } else {
             // alert('invalid or non existent video id provided');
-            return 0;
+            return -1;
         }
     }
     var reduceSumCiGraph = function (data) {
@@ -35,7 +38,7 @@ var dataModule = (function (d3) {
             if (i == 0) {
                 cum_grphno = parseInt(element.ci_graph);
                 cum_cdoi = parseInt(element.cdoi);
-            } else if (element.ptype.toLowerCase() == "hub") {
+            } else if (element.ptype.toLowerCase() == varConfig.HUB) {
                 cum_grphno = cum_grphno + 1;
                 cum_cdoi = cum_cdoi + parseInt(element.cdoi);
                 element.ci_graph = cum_grphno / 2
@@ -58,9 +61,6 @@ var dataModule = (function (d3) {
         return output
     }
 
-    var graphHubID;
-    var graphHub;
-
     var _getGraphHubID = function () {
         return graphHubID;
     }
@@ -71,11 +71,9 @@ var dataModule = (function (d3) {
     // update the hub id for the complete data
     var _updateHubsForGraph = function (graphData) {
         // find the first hub and store its id
-        // update all other hubs with the id to be the first hub id
-        // update the participants ia number pointing to any hub to now point to first hub id
 
         graphHub = graphData.find(function (node) {
-            return node.ptype.toLowerCase() == 'hub'
+            return node.ptype.toLowerCase() == varConfig.HUB
         });
         if (graphHub) {
             console.log(graphHub);
@@ -83,6 +81,7 @@ var dataModule = (function (d3) {
             graphHubID = graphHub.pid;
         } else {
             // alert('Error : There is no hub present in the graph, please load a correct dataset');
+            console.log("it appears there is no hub in the database, application won't run properly");
         }
     }
 
@@ -90,7 +89,6 @@ var dataModule = (function (d3) {
     var _filterUniqueNodes = function (dataToFilter) {
         return filterdata(dataToFilter)
     }
-
 
     function merge(a, b, prop) {
         var reduced = a.filter(function (aitem) {
@@ -121,10 +119,6 @@ var dataModule = (function (d3) {
             i;
         var flags = {};
 
-        // set uniform distributed angle
-        // let uniqueNodes = filterdata(networkdata);
-        // uniqueNodes = uniqueNodes.length;
-
         // to find out exactly how many nodes needed to place and set their coordinates
         let uniqueNodes = _filterUniqueNodes(networkdata)
         // set coordinates
@@ -154,7 +148,7 @@ var dataModule = (function (d3) {
                 uniqueNodes[i]["y"] = centerY - 20
             } else {
                 // no new coordinates to another node of type 'hub' is allowed to sit in graph
-                if (uniqueNodes[i].ptype.toLowerCase() == 'hub' && !!flags[uniqueNodes[i]["ptype"].toLowerCase()]) {
+                if (uniqueNodes[i].ptype.toLowerCase() == varConfig.HUB && !!flags[uniqueNodes[i]["ptype"].toLowerCase()]) {
                     // set coordinates of original hub
                     x = flags[uniqueNodes[i]["ptype"].toLowerCase()].x
                     y = flags[uniqueNodes[i]["ptype"].toLowerCase()].y
@@ -162,9 +156,7 @@ var dataModule = (function (d3) {
                     x = Math.round(width / 2 + radius * Math.cos(angle) - 20);
                     y = Math.round(height / 2 + radius * Math.sin(angle) - 20);
                 }
-               
-                // x = (radius * Math.cos(angle)) + (width / 2); // Calculate the x position of the element.
-                // y = (radius * Math.sin(angle)) + (width / 2); // Calculate the y position of the element.
+
                 flags[uniqueNodes[i].pid] = {
                     "status": true,
                     "x": x,
@@ -193,7 +185,7 @@ var dataModule = (function (d3) {
         return [];
     }
 
-    var getData = function (video_id, cb) {
+    var getData = function (video_id, graphContainerHeight, graphContainerWidth, cb) {
         console.log('video id recieved is ', video_id);
         if (d3) {
             d3.json('./../../data/multiple_videos.json', (err, data) => {
@@ -205,26 +197,37 @@ var dataModule = (function (d3) {
                     let fetchedData = _getDataFromId(video_id, data);
 
                     if (fetchedData !== -1) {
-                        var originaldata = fetchedData[0].data; //17
+                        var originaldata = fetchedData[0].data;
+
                         originaldata = reduceSumCiGraph(originaldata)
                         console.log("whole data: ", originaldata)
+
+                        // set appropriate variables
+                        let gcHeight = graphContainerHeight;
+                        let gcWidth = graphContainerWidth;
+                        let centerPoint = (gcHeight/2.5);
                         // var dataForAxis = filterdata(originaldata);
-                        originaldata = createAxis(originaldata.length, ($("#graphContainer").height() / 2.5), originaldata, ($("#graphContainer").width()), ($("#graphContainer").height()))
+                        originaldata = createAxis(originaldata.length, centerPoint, originaldata, gcWidth, gcHeight)
                         console.log('data fetched');
                         // set the video details
-                        toolbarModule.updateVideDetails({
+                        let dataForCurrentVideo = {
                             name: fetchedData[0].vname,
                             duration: fetchedData[0].vduration,
                             // hubs: fetchedData[0].vhubs,
                             heldOn: fetchedData[0].vheldOn,
                             id: fetchedData[0].id
-                        })
+                        };
+                        
+                        toolbarModule.updateVideDetails(dataForCurrentVideo)
+                        
                         cb(originaldata)
                     } else {
                         console.log('will not proceed unless correct video id is passed in the query string');
                         // hide the start button
                         $('#startBtn').css('display', 'none');
-                        $('#initialText > h3').text('No Information available to analyse');
+                        // display relevant error message in the video details container
+                        $('.video-details2 > .container > .dropdown > .title').text('Video ID Invalid or missing')
+                        $('#initialText > h3').text('No Information available to analyze');
                     }
                 } else {
                     console.log('no data fetched');

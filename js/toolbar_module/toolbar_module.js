@@ -132,22 +132,29 @@ var toolbarModule = (function(jQuery){
         coreEl.append(_bodyTemplate2({heldOn: currentvideoData.heldOn, duration: currentvideoData.duration}));
     }
 
+    // this function is used to set video details without dropdown
     var _updateVideoDetails = function(dataToUse) {
-        let coreEl = jQuery('.video-details');
+        if (!window.location.pathname.split('.')[0].includes('index1')) {
+            _updateVideoDetails2(dataToUse);
+        } else {
+            // on index1.html, old videodetails is available
+            console.log('index1 is hit');
+            let coreEl = jQuery('.video-details');
 
-        let el = jQuery('div.video-details > div.container');
-        el.empty();
-         let name = dataToUse.name || 'Name Not Available';
-         let duration = dataToUse.duration || 'NA';
-         let heldOn = dataToUse.heldOn || 'NA';
-         let hubs = dataToUse.hubs || [];
+            let el = jQuery('div.video-details > div.container');
+            el.empty();
+            let name = dataToUse.name || 'Name Not Available';
+            let duration = dataToUse.duration || 'NA';
+            let heldOn = dataToUse.heldOn || 'NA';
+            let hubs = dataToUse.hubs || [];
 
-        _renderVideoDetailsTemplate(el, {name, duration, heldOn, hubs});
-        coreEl.css('opacity', 1);
+            _renderVideoDetailsTemplate(el, {name, duration, heldOn, hubs});
+            coreEl.css('opacity', 1);
+        }
     }
     
     return {
         updateNodeDetails : _updateNodeDetails,
-        updateVideDetails: _updateVideoDetails2
+        updateVideDetails: _updateVideoDetails
     }
 })($)

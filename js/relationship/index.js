@@ -1,5 +1,9 @@
 var relationshipModule = (function () {
+    // retrieve color codes
+    var colorCodes = colorConfig.colorCodes;
+
     this.arrowstatus = false
+    
     this.arrowHead = function (svg) {
         arrowstatus = true;
         svg.append("svg:defs").append("svg:marker")
@@ -11,7 +15,7 @@ var relationshipModule = (function () {
             .attr("orient", "auto")
             .append("path")
             .attr("d", "M 0 0 12 6 0 12 3 6")
-            .style("fill", "#797676");
+            .style("fill", colorCodes.arrowColor);
     }
     this.lineCreation = function (svg, data) {
         var weight = data.weight || 1;
@@ -26,7 +30,7 @@ var relationshipModule = (function () {
             .attr("x2", x2)
             .attr("y2", y2)
             .attr("stroke-width", weight)
-            .attr("stroke", "#797676")
+            .attr("stroke", colorCodes.lineColor)
             .attr("marker-end", "url(#triangle)");
     }
     this.createRelation = function (data) {
@@ -38,11 +42,9 @@ var relationshipModule = (function () {
             var err = new Error("please proved source and target and coordinates");
             throw err;
         }
-        // if (!arrowstatus)
+
         arrowHead(svg);
         lineCreation(svg, this.data);
-
-
     }
     return this
 });
