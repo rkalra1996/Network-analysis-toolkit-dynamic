@@ -221,7 +221,7 @@ var nodeModule = (function (d3) {
             // _renderToGraph(hubCircle, activeHubCircle,hubMiniCircle, currentNodeData );
             activeHubCircle.attr('cx', uniqueHub.data()[0].x)
                 .attr('cy', uniqueHub.data()[0].y)
-                .attr('r', varConfig.MINI_CIRCLE.RADIUS)
+                .attr('r', varConfig.ACTIVE_CIRCLE.RADIUS)
                 .attr('fill', colorCodes.activeColor);
             hubCircle.data()[0]['original_radius'] = !currentNodeData.cdoi || (currentNodeData.cdoi / 100 < varConfig.NODE_SIZE.MIN) ? varConfig.NODE_SIZE.MIN : (currentNodeData.cdoi >= varConfig.NODE_SIZE.MAX ? varConfig.NODE_SIZE.MAX : currentNodeData.cdoi / 100)
             hubCircle.data()[0]['ci_graph'] = currentNodeData.ci_graph;
