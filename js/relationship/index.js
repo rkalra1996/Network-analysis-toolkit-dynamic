@@ -1,6 +1,7 @@
 var relationshipModule = (function () {
     // retrieve color codes
     var colorCodes = colorConfig.colorCodes;
+    var varConfig = variablesConfig;
 
     this.arrowstatus = false
     
@@ -8,17 +9,17 @@ var relationshipModule = (function () {
         arrowstatus = true;
         svg.append("svg:defs").append("svg:marker")
             .attr("id", "triangle")
-            .attr("refX", 30)
-            .attr("refY", 6)
-            .attr("markerWidth", 30)
-            .attr("markerHeight", 30)
+            .attr("refX", varConfig.RELATION.ARROWHEAD.REF_X)
+            .attr("refY", varConfig.RELATION.ARROWHEAD.REF_Y)
+            .attr("markerWidth", varConfig.RELATION.ARROWHEAD.MARKER.WIDTH)
+            .attr("markerHeight", varConfig.RELATION.ARROWHEAD.MARKER.HEIGHT)
             .attr("orient", "auto")
             .append("path")
             .attr("d", "M 0 0 12 6 0 12 3 6")
             .style("fill", colorCodes.arrowColor);
     }
     this.lineCreation = function (svg, data) {
-        var weight = data.weight || 1;
+        var weight = data.weight || varConfig.RELATION.DEFAULT_WEIGHT;
         var x1 = data.x1;
         var x2 = data.x2;
         var y1 = data.y1;

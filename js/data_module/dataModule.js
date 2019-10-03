@@ -137,15 +137,15 @@ var dataModule = (function (d3) {
                 // assuming that the first node is ALWAYS 'hub'
                 flags[uniqueNodes[i]["pid"]] = {
                     "status": true,
-                    "x": centerX - 20,
-                    "y": centerY - 20
+                    "x": centerX - varConfig.NODE_SIZE.HUB.X_OFFSET,
+                    "y": centerY - varConfig.NODE_SIZE.HUB.Y_OFFSET
                 }
                 flags[uniqueNodes[i]["ptype"].toLowerCase()] = {
-                    "x": centerX - 20,
-                    "y": centerY - 20
+                    "x": centerX - varConfig.NODE_SIZE.HUB.X_OFFSET,
+                    "y": centerY - varConfig.NODE_SIZE.HUB.Y_OFFSET
                 }
-                uniqueNodes[i]["x"] = centerX - 20;
-                uniqueNodes[i]["y"] = centerY - 20
+                uniqueNodes[i]["x"] = centerX - varConfig.NODE_SIZE.HUB.X_OFFSET;
+                uniqueNodes[i]["y"] = centerY - varConfig.NODE_SIZE.HUB.Y_OFFSET
             } else {
                 // no new coordinates to another node of type 'hub' is allowed to sit in graph
                 if (uniqueNodes[i].ptype.toLowerCase() == varConfig.HUB && !!flags[uniqueNodes[i]["ptype"].toLowerCase()]) {
@@ -153,8 +153,8 @@ var dataModule = (function (d3) {
                     x = flags[uniqueNodes[i]["ptype"].toLowerCase()].x
                     y = flags[uniqueNodes[i]["ptype"].toLowerCase()].y
                 }else{
-                    x = Math.round(width / 2 + radius * Math.cos(angle) - 20);
-                    y = Math.round(height / 2 + radius * Math.sin(angle) - 20);
+                    x = Math.round(width / 2 + radius * Math.cos(angle) - varConfig.NODE_SIZE.NON_HUB.X_OFFSET);
+                    y = Math.round(height / 2 + radius * Math.sin(angle) - varConfig.NODE_SIZE.NON_HUB.Y_OFFSET);
                 }
 
                 flags[uniqueNodes[i].pid] = {

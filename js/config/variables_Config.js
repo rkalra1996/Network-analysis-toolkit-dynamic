@@ -7,7 +7,15 @@ var variablesConfig = (function(){
         SUBSPOKE: "subspoke",
         NODE_SIZE: {
             MIN: 15,
-            MAX: 60
+            MAX: 60,
+            HUB: {
+                X_OFFSET: 20,
+                Y_OFFSET: 20
+            },
+            NON_HUB: {
+                X_OFFSET: 20,
+                Y_OFFSET: 20
+            }
         },
         MINI_CIRCLE: {
             RADIUS: 5,
@@ -28,6 +36,17 @@ var variablesConfig = (function(){
             RADIUS: {
                 OFFSET: 10,
                 MAX: 40
+            }
+        },
+        RELATION: {
+            DEFAULT_WEIGHT: 1,
+            ARROWHEAD: {
+                REF_X: 30,
+                REF_Y: 6,
+                MARKER: {
+                    WIDTH: 30,
+                    HEIGHT: 30
+                }
             }
         }
     }
